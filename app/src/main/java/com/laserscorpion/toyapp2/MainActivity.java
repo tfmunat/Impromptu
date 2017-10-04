@@ -58,18 +58,19 @@ public class MainActivity extends AppCompatActivity {
     public void updateList(View view) {
         DatabaseHelper helper = new DatabaseHelper(this);
         ArrayList<Person> currentPeople = helper.getAllNames();
-        /*for (DatabaseHelper.Person person : currentPeople) {
-            adapter.remove(person);
-        }*/
+
 
         for (Person person : currentPeople) {
-            adapter.remove(person);
+            boolean alreadyInList = people.contains(person);
+            if (alreadyInList)
+                adapter.remove(person);
         }
         adapter.notifyDataSetChanged();
 
-        //adapter.addAll(currentPeople);
+        adapter.addAll(currentPeople);
 
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
+        people = currentPeople;
     }
 
     @Override

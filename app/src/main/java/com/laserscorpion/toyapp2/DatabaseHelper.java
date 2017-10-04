@@ -18,11 +18,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_NAMES=
             "CREATE TABLE names (id INTEGER PRIMARY KEY, name TEXT, uni TEXT)";
 
-    private SQLiteDatabase db;
 
     public DatabaseHelper(Context context) {
         super(context, "Names.db", null, 1);
-        db = getWritableDatabase();
+
     }
 
     @Override
@@ -36,13 +35,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long add(String name, String uni) {
-        //SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         values.put("name", name);
         values.put("uni", uni);
         long row = db.insert("names", null, values);
+        db.close();
         return row;
     }
 
@@ -69,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             people.add(person);
         }
         result.close();
+        db.close();
 
         return people;
     }
