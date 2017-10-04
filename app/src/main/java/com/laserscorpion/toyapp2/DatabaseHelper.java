@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp;
+package com.laserscorpion.toyapp2;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,10 +18,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_NAMES=
             "CREATE TABLE names (id INTEGER PRIMARY KEY, name TEXT, uni TEXT)";
 
+    private SQLiteDatabase db;
 
     public DatabaseHelper(Context context) {
         super(context, "Names.db", null, 1);
-
+        db = getWritableDatabase();
     }
 
     @Override
@@ -34,16 +35,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public int add(String name, String uni) {
-        SQLiteDatabase db = getWritableDatabase();
+    public long add(String name, String uni) {
+        //SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         values.put("name", name);
         values.put("uni", uni);
-        db.insert("Names.db", null, values);
-
-        return 0;
+        long row = db.insert("names", null, values);
+        return row;
     }
 
     public void update(int id, String name, String uni) {
@@ -71,12 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         result.close();
 
         return people;
-    }
-
-    public class Person {
-        public int id;
-        public String name;
-        public String uni;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp;
+package com.laserscorpion.toyapp2;
 
 import org.junit.Test;
 

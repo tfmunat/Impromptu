@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp;
+package com.laserscorpion.toyapp2;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -13,9 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ArrayAdapter<Person> adapter;
+    private ArrayList<Person> people;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +29,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+
+        people = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, R.layout.list_item, people);
+        ListView list = (ListView)findViewById(R.id.name_list);
+        list.setAdapter(adapter);
     }
 
 
@@ -41,14 +51,25 @@ public class MainActivity extends AppCompatActivity {
         String name = nameField.getText().toString();
         String uni = uniField.getText().toString();
         DatabaseHelper helper = new DatabaseHelper(this);
-        int id = helper.add(name, uni);
+        long id = helper.add(name, uni);
 
     }
 
     public void updateList(View view) {
-        ListView list = (ListView)findViewById(R.id.name_list);
-        ArrayList<DatabaseHelper.Person> people = new ArrayList<>();
-        ArrayAdapter<DatabaseHelper.Person> adapter = new ArrayAdapter<>(this, R.layout.list_item, people);
+        DatabaseHelper helper = new DatabaseHelper(this);
+        ArrayList<Person> currentPeople = helper.getAllNames();
+        /*for (DatabaseHelper.Person person : currentPeople) {
+            adapter.remove(person);
+        }*/
+
+        for (Person person : currentPeople) {
+            adapter.remove(person);
+        }
+        adapter.notifyDataSetChanged();
+
+        //adapter.addAll(currentPeople);
+
+        //adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp;
+package com.laserscorpion.toyapp2;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
