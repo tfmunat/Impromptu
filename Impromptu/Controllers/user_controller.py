@@ -2,6 +2,7 @@ from Impromptu import app, mongo_mlab
 from flask import render_template, request, jsonify
 import json
 from Impromptu.Model.user_model import User
+import re
 
 
 # class UserController(object):
@@ -59,17 +60,46 @@ def saveData():
 def signUp():
 	data = request.get_data()
 	user_obj = User(json.loads(data.decode('utf8')))
-	docid = mongo_mlab.db.active_users.insert({
-    		"first_name" : user_obj.get_first_name(),
-    		"last_name" : user_obj.get_last_name(),
-    		"email" : user_obj.get_email(),
-    		"likes" : user_obj.get_likes(),
-    		"is_active" : user_obj.get_is_active()
-     	})
-	print(docid)
-	response = app.response_class(
-        response=json.dumps({"id" : str(docid)}),
-        status=200,
-        mimetype='application/json'
-    )
+	err_msg = validateUser(user_obj)
+	if err_msg != "":
+		response = app.response_class(
+				response=json.dumps({"message" : err_msg}),
+				status=400,
+				mimetype='application/json'
+			)
+	else:
+		try:
+			docid = mongo_mlab.db.active_users.insert({
+	    		"first_name" : user_obj.get_first_name(),
+	    		"last_name" : user_obj.get_last_name(),
+	    		"email" : user_obj.get_email(),
+	    		"likes" : user_obj.get_likes(),
+	    		"is_active" : user_obj.get_is_active()
+	     	})
+			print(docid)
+			response = app.response_class(
+		        response=json.dumps({"id" : str(docid)}),
+		        status=200,
+		        mimetype='application/json'
+		    )	
+		except Exception as e:
+			print(e)
+			response = app.response_class(
+					response=json.dumps({"message":"An issue with server."}),
+					status=500,
+					mimetype='application/json'
+				)
+		
 	return response
+
+def validateUser(user_obj):
+	err_msg = ""
+	if re.match(r"[A-Za-z]+", user_obj.first_name) is None:
+		err_msg += "Add proper first name, "
+	if re.match(r"[A-Za-z]+", user_obj.last_name) is None:
+		err_msg += "Add proper last name, "
+	if len(user_obj.likes) == 0:
+		err_msg += 'Please add at least one interest '
+	if re.match(r"[A-Za-z0-9]+@[A-za-z]+\.[a-z]", user_obj.email) is None:
+		err_msg += 'Please add a valid email address.'
+	return err_msg
