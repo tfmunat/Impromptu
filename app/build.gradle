@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.laserscorpion.toyapp2"
+        applicationId "com.laserscorpion.impromptu"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
@@ -31,5 +31,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:24.2.1'
+    compile 'com.facebook.android:facebook-login:[4,5)'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.android.volley:volley:1.0.0'
     testCompile 'junit:junit:4.12'
 }

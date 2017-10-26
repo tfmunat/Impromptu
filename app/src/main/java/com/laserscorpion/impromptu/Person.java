@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp2;
+package com.laserscorpion.impromptu;
 
 public class Person {
     public int id;

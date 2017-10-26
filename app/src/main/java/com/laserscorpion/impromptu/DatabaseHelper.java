@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp2;
+package com.laserscorpion.impromptu;
 
 import android.content.ContentValues;
 import android.content.Context;
