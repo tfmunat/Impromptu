@@ -1,0 +1,7 @@
+{
+	"MONGOMLAB_HOST" : "ds161584.mlab.com",
+	"MONGOMLAB_PORT" : 61584,
+	"MONGOMLAB_DBNAME" : "users_impromptu",
+	"MONGOMLAB_USERNAME" : "abhishek",
+	"MONGOMLAB_PASSWORD" : "12345"
+}

@@ -57,3 +57,10 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# PyCache folders
+__pycache__/
+Impromptu.egg-info/
+
+.pyc
+.cache
