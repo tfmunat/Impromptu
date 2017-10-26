@@ -1,4 +1,4 @@
-package com.laserscorpion.toyapp2;
+package com.laserscorpion.impromptu;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.laserscorpion.toyapp", appContext.getPackageName());
+        assertEquals("com.laserscorpion.impromptu", appContext.getPackageName());
     }
 }
