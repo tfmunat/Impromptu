@@ -4,15 +4,18 @@
 
 App for ASE 4156
 
+This branch contains the code for the backend server of Impromptu. It has been written in Python Flask and uses MongoDB in the backend for data storage.
+
 *****************
-Start the server:
+Installing and starting the server:
 *****************
-- Please install all the dependencies by executing: pip install -r requirements.txt
-- pip install -e .
+- Please install all the dependencies by executing the following command:
+    pip install -r requirements.txt
 - Please update your MongoDB Connection details in dbConnect.json file
 - Set the FLASK_APP environment variable to Impromptu. 
   For Windows,
     set FLASK_APP=Impromptu
   For Linux,
     export FLASK_APP=Impromptu
-- Now, execute flask run to start the server.
+- Now, execute following command to start the server.
+    flask run
