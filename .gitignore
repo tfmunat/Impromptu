@@ -60,3 +60,5 @@ Impromptu.egg-info/
 
 .pyc
 .cache
+Impromptu/dbAdapter.pyc
+*.pyc
