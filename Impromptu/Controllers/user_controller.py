@@ -34,18 +34,21 @@ def getAllUsers():
 	return jsonify(users_list)
 
 
-@app.route("/save", methods=['GET', 'POST'])
+@app.route("/save", methods=['POST'])
 def saveData():
 	data = request.get_data()
+
+	#print data
 
 	list_response = data.split('&')
 
 	first_name = list_response[0].split('=')[1]
 	last_name = list_response[1].split('=')[1]
-	likes = list_response[2].split('=')[1]
+	likes = list_response[2].split('=')[1].split(',')
 
-	#print first_name, last_name, likes
-	#print list_response[1], list_response[3], list_response[5]
+	# print 'First Name:', first_name
+	# print 'Last Name:', last_name
+	# print 'Likes: ', likes
 
 	docid = mongo_mlab.db.active_users.insert({
 			'first_name': first_name, 
@@ -53,8 +56,7 @@ def saveData():
 			'likes': likes
 			})
 
-	return "Saved with id: ", docid
-	#return data & id generated in db.
+	# print "Saved with id: ", docid
 
 @app.route("/signup", methods=['POST'])
 def signUp():
