@@ -3,7 +3,8 @@ import os
 from flask_pymongo import PyMongo
 
 def connect(app):
-	with open(os.getcwd()+'/Impromptu/config/dbConfig.json') as json_data:
+	mydir = os.path.dirname(os.path.abspath(__file__))
+	with open(mydir+'/config/dbConfig.json') as json_data:
 		dbConfig = json.load(json_data)
 
 	app.config['MONGOMLAB_HOST'] = dbConfig['MONGOMLAB_HOST']
