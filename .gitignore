@@ -62,3 +62,4 @@ Impromptu.egg-info/
 .cache
 Impromptu/dbAdapter.pyc
 *.pyc
+Impromptu/config/dbConfigC.json
