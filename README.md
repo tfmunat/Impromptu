@@ -17,5 +17,5 @@ Installing and starting the server:
     set FLASK_APP=Impromptu
   For Linux,
     export FLASK_APP=Impromptu
-- Now, execute following command to start the server.
-    flask run
+- Now, execute following command to start the server:
+   flask run
