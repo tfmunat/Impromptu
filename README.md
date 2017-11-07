@@ -9,6 +9,7 @@ Start the server:
 *****************
 - Please install all the dependencies by executing: pip install -r requirements.txt
 - pip install -e .
+- Please update your MongoDB Connection details in dbConnect.json file
 - Set the FLASK_APP environment variable to Impromptu. 
   For Windows,
     set FLASK_APP=Impromptu
