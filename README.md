@@ -6,7 +6,7 @@ App for ASE 4156
 
 There are two versions to the Repository:
 
-The Master repository contains code for both Android frontend and Flask Server
+The Master repository contains code for Android frontend
 
 The develop branch contains code for Flask backend server development
 - Please switch branch and check the installation instructions in the README of the development branch
