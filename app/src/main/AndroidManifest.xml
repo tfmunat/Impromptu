@@ -81,6 +81,7 @@
         </activity>
         <activity android:name=".BasicProfileCompletionActivity">
         </activity>
+        <activity android:name=".LaunchAppRoutingTest"/>
     </application>
 
 </manifest>

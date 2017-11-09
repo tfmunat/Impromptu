@@ -48,8 +48,6 @@ public class BasicProfileCompletionActivity extends Activity {
     public void registerDetailsWithServer(View view) {
         JSONObject userDetails = getUserDetails();
         sendRegistrationDetails(userDetails);
-
-
     }
 
     private void startMapActivity() {
@@ -98,7 +96,7 @@ public class BasicProfileCompletionActivity extends Activity {
             }
 
         };
-        
+
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }

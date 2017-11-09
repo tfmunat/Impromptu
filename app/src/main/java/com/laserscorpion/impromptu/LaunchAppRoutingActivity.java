@@ -8,6 +8,8 @@ import com.facebook.AccessToken;
 import com.facebook.Profile;
 
 public class LaunchAppRoutingActivity extends AppCompatActivity {
+    protected AccessToken token;
+    protected Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,13 @@ public class LaunchAppRoutingActivity extends AppCompatActivity {
         finish();
     }
 
+    protected void populateFacebookTokens() {
+        token = FacebookResourceLocator.getToken();
+        profile = FacebookResourceLocator.getProfile();
+    }
+
     private boolean userIsLoggedIn() {
-        return AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null;
+        populateFacebookTokens();
+        return token != null && profile != null;
     }
 }
