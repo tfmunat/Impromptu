@@ -79,17 +79,6 @@ public class BasicProfileCompletionActivity extends Activity {
                 dialog.show(getFragmentManager(), "SignupError");
             }
         }) {
-            /*@Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("first_name", "Joel");
-                params.put("last_name", "Cretan");
-                params.put("fb_id", "5743267843786");
-                params.put("likes", "[\"somethign\"]");
-
-                return params;
-            }*/
             @Override
             public byte[] getBody() throws AuthFailureError
             {
@@ -101,7 +90,6 @@ public class BasicProfileCompletionActivity extends Activity {
                 catch (Exception e) {
                     e.printStackTrace();
                     throw new AuthFailureError("uh oh", e);
-                    //return null;
                 }
             }
             @Override
@@ -110,16 +98,7 @@ public class BasicProfileCompletionActivity extends Activity {
             }
 
         };
-
-        Log.d(TAG, "here it is \n" + stringRequest.toString());
-        try {
-            Log.d(TAG, "body \n" + new String(stringRequest.getBody(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-        }
-
+        
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
