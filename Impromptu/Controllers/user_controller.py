@@ -74,7 +74,7 @@ def signUp():
 			docid = mongo_mlab.db.active_users.insert({
 	    		"first_name" : user_obj.get_first_name(),
 	    		"last_name" : user_obj.get_last_name(),
-	    		"email" : user_obj.get_email(),
+	    		"fb_id" : user_obj.get_fb_id(),
 	    		"likes" : user_obj.get_likes(),
 	    		"is_active" : user_obj.get_is_active()
 	     	})
@@ -102,6 +102,6 @@ def validateUser(user_obj):
 		err_msg += "Add proper last name, "
 	if len(user_obj.likes) == 0:
 		err_msg += 'Please add at least one interest '
-	if re.match(r"[A-Za-z0-9]+@[A-za-z]+\.[a-z]", user_obj.email) is None:
-		err_msg += 'Please add a valid email address.'
+	# if re.match(r"[A-Za-z0-9]+@[A-za-z]+\.[a-z]", user_obj.email) is None:
+	# 	err_msg += 'Please add a valid email address.'
 	return err_msg
