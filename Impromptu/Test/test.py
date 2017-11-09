@@ -26,6 +26,7 @@ def make_app(mongodb_uri):
     		return response
     	else:
     		try:
+    			return 'h'
     			docid = mongo_mlab.db.active_users.insert({
     				"first_name" : user_obj.get_first_name(),
     				"last_name" : user_obj.get_last_name(),
@@ -51,7 +52,7 @@ class TestCase(unittest.TestCase):
 		# Test to check if Flask App runs properly or not		
 		self.mock_server = MockupDB(auto_ismaster=True)
 		self.mock_server.run()
-		assert self.mock_server.uri == "Something"
+		assert len(self.mock_server.uri) > 0
 		self.app = make_app(self.mock_server.uri).test_client()
 		
 
@@ -60,7 +61,7 @@ class TestCase(unittest.TestCase):
 
 	def tearDown(self):
 		# Test to see if the application closes gracefully
-		pass
+		self.mock_server.stop()
 
 #	def integrityChecks(self):
 		# Checking to see if Application handles error cases properly		
