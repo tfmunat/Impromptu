@@ -6,7 +6,7 @@ class User(object):
 		self.first_name = json['first_name']
 		self.last_name = json['last_name']
 		self.likes = json['likes']
-		self.email = json['email']
+		self.email = json['fb_id']
 		self.is_active = True
 
 	def get_first_name(self):
@@ -18,7 +18,7 @@ class User(object):
 	def get_likes(self):
 		return self.likes
 
-	def get_email(self):
+	def get_fb(self):
 		return self.email
 
 	def get_is_active(self):
