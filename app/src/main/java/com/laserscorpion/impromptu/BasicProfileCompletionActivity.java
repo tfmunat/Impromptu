@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,7 +21,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A screen shown after the user logs into Facebook that asks them for their interests.
@@ -53,27 +57,68 @@ public class BasicProfileCompletionActivity extends Activity {
         startActivity(intent);
     }
 
-    private void sendRegistrationDetails(JSONObject userInfo) {
+    private void sendRegistrationDetails(final JSONObject userInfo) {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = getString(R.string.sign_up_new_user_url);
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response);
+                        Log.d(TAG, "here's the response \n" + response);
                         startMapActivity();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.toString());
                 ErrorDialog dialog = ErrorDialog.newInstance(error.getMessage());
                 dialog.show(getFragmentManager(), "SignupError");
             }
-        });
+        }) {
+            /*@Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("first_name", "Joel");
+                params.put("last_name", "Cretan");
+                params.put("fb_id", "5743267843786");
+                params.put("likes", "[\"somethign\"]");
+
+                return params;
+            }*/
+            @Override
+            public byte[] getBody() throws AuthFailureError
+            {
+                try {
+                    String userString = userInfo.toString();
+                    byte[] bytes  = userString.getBytes("UTF-8");
+                    return bytes;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    throw new AuthFailureError("uh oh", e);
+                    //return null;
+                }
+            }
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+
+        };
+
+        Log.d(TAG, "here it is \n" + stringRequest.toString());
+        try {
+            Log.d(TAG, "body \n" + new String(stringRequest.getBody(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
@@ -98,9 +143,9 @@ public class BasicProfileCompletionActivity extends Activity {
         try {
             userDetails.put("first_name", firstName);
             userDetails.put("last_name", lastName);
-            userDetails.put("id", facebookID);
+            userDetails.put("fb_id", facebookID);
             userDetails.put("likes", new JSONArray(interests.toArray()));
-            Log.d(TAG, userDetails.toString(4));
+            //Log.d(TAG, userDetails.toString(4));
         } catch (JSONException e) {
             // unclear why this would be thrown
             return null;
