@@ -51,6 +51,7 @@ class TestCase(unittest.TestCase):
 		# Test to check if Flask App runs properly or not		
 		self.mock_server = MockupDB(auto_ismaster=True)
 		self.mock_server.run()
+		assert self.mock_server.uri == "Something"
 		self.app = make_app(self.mock_server.uri).test_client()
 		
 
