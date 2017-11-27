@@ -126,7 +126,7 @@ def searchEvents(longitude, latitude, dist):
 			)
 	else:
 		response = app.response_class(
-				response=json.dumps({"message":"An issue with server."}),
+				response=json.dumps({"message":"No nearby events found."}),
 				status=500,
 				mimetype='application/json'
 			)		
@@ -148,7 +148,6 @@ def searchEventsKeyword(longitude, latitude, dist, keywords):
 	longitude = float(longitude)
 	latitude = float(latitude)
 	dist = int(dist)
-	#keyword_arr = 
 	keywords_arr = list(map(lambda x : x.lower(), keywords.split(",")))
 	nearby_events = searchEventsDist(longitude, latitude, dist)
 
@@ -167,7 +166,7 @@ def searchEventsKeyword(longitude, latitude, dist, keywords):
 			)
 	else:
 		response = app.response_class(
-				response=json.dumps({"message":"An issue with server."}),
+				response=json.dumps({"message":"No nearby events with specified keywords found."}),
 				status=500,
 				mimetype='application/json'
 			)		
