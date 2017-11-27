@@ -11,3 +11,5 @@ app = Flask(__name__)
 mongo_mlab = make_app("Production", app)
 
 from Impromptu.Controllers.user_controller import *
+from Impromptu.Controllers.event_controller import *
+from Impromptu.Controllers.attendance_controller import *

@@ -1,6 +1,6 @@
 import json
 import os
-from flask_pymongo import PyMongo
+import flask_pymongo
 
 def connect(app):
 	mydir = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +12,6 @@ def connect(app):
 	app.config['MONGOMLAB_DBNAME'] = dbConfig['MONGOMLAB_DBNAME']
 	app.config['MONGOMLAB_USERNAME'] = dbConfig['MONGOMLAB_USERNAME']
 	app.config['MONGOMLAB_PASSWORD'] = dbConfig['MONGOMLAB_PASSWORD']
-	mongo_mlab = PyMongo(app, config_prefix='MONGOMLAB')
+	mongo_mlab = flask_pymongo.PyMongo(app, config_prefix='MONGOMLAB')
 
 	return mongo_mlab
