@@ -1,9 +1,21 @@
 click==6.7
+colorama==0.3.9
+coverage==4.4.2
 Flask==0.12.2
 Flask-PyMongo==0.5.1
--e git+https://github.com/tfmunat/Impromptu.git@b6c23df3e065158169937e6d4f1033815017c2ef#egg=Impromptu
+funcsigs==1.0.2
+-e git+https://github.com/tfmunat/Impromptu.git@8065332c4ab2e752b1ea547f64aa8bfdf9822427#egg=Impromptu
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
+mock==2.0.0
+mockupdb==1.2
+mongomock==3.8.0
+pbr==3.1.1
+py==1.4.34
 pymongo==3.5.1
+pytest==3.2.3
+pytest-cov==2.5.1
+sentinels==1.0.0
+six==1.11.0
 Werkzeug==0.12.2
