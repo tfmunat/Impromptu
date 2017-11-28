@@ -65,3 +65,4 @@ Impromptu/dbAdapter.pyc
 Impromptu/config/dbConfigC.json
 .idea
 Impromptu/.coverage
+.coverage
