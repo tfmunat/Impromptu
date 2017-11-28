@@ -27,7 +27,8 @@ class Event(object):
         return self.time
 
     def get_owner(self):
-        return self.owner        
+        return self.owner
 
     def get_category(self):
         return self.category
+        
