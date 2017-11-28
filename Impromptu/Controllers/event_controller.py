@@ -1,87 +1,26 @@
-from Impromptu import app, mongo_mlab
 from flask import render_template, request, jsonify
 import json
-from Impromptu.Model.event_model import Event
 import re
 from bson.objectid import ObjectId
 from bson.son import SON
 
-@app.route("/eventadd", methods=['POST'])
-def createEvent():
-	data = request.get_data()
-	if len(data) == 0:
-		print('Data load is empty!')
-		return 'No'
-	# print data
-	user_obj = Event(json.loads(data.decode('utf8')))
-	err_msg = "" #validateUser(user_obj)
-	if err_msg != "":
-		response = app.response_class(
-				response=json.dumps({"message" : err_msg}),
-				status=400,
-				mimetype='application/json'
-			)
-	else:
-		try:
-			docid = mongo_mlab.db.events.insert({
-	    		"title" : user_obj.get_title(),
-	    		"description" : user_obj.get_description(),
-	    		"geo_loc" : {
-	    			"type" : "Point",
-	    			"coordinates" : user_obj.get_geo_loc()
-	    		},
-	    		"place_id" : user_obj.get_place_id(),
-	    		"time" : user_obj.get_time(),
-	    		"owner" : user_obj.get_owner(),
-	    		"category" : user_obj.get_category(),
-	    		"attendees" : []
-	     	})
-			print(user_obj.get_owner())
+from Impromptu import app, mongo_mlab
+from Impromptu.Model.event_model import Event
+from Impromptu.Controllers.user_controller import getUserDetails
 
-			# docid_attendance = mongo_mlab.db.attendance.insert({
-	  #   		"event_id" : docid,
-	  #   		"owner" : user_obj.get_owner(),
-	  #   		"attendees" : [user_obj.get_owner()]
-	  #    	})
-
-			res = mongo_mlab.db.active_users.find_one_and_update(
-				{ "_id" : ObjectId(user_obj.get_owner()) },
-				{ "$push" : { "events_attending" : str(docid) }}
-			)
-
-			print(res)
-			response = app.response_class(
-		        response=json.dumps({"id" : str(docid)}),
-		        status=200,
-		        mimetype='application/json'
-		    )	
-		except Exception as e:
-			print(e)
-			response = app.response_class(
-					response=json.dumps({"message":"An issue with server."}),
-					status=500,
-					mimetype='application/json'
-				)
-		
-	return response
-
-def getUserDetails(attendees):
-		attendees_obj_ids = [ObjectId(i) for i in attendees]
-		print(attendees_obj_ids)
-		user_names = []
-		try:
-			users = mongo_mlab.db.active_users.find(
-					{"_id" : {"$in" : attendees_obj_ids} }
-				)
-
-			for user in users:
-				user_names.append(user["first_name"] + " " + user["last_name"])
-
-			return user_names
-
-		except Exception as e:
-			return []
-
+def validateEvent(obj):
+	err_msg = ""
+	if obj.title == "":
+		err_msg += "Add proper title "
+	if obj.description == "":
+		err_msg += "Add proper description "
+	if len(obj.geo_loc) != 2:
+		err_msg += 'Please specify location properly '
+	if obj.category == "":
+		err_msg += 'Please specify category properly '
+	if obj.owner == "":
+		err_msg += 'Please specify owner properly '
+	return err_msg
 
 def searchEventsDist(longitude, latitude, dist):
 	try:
@@ -109,6 +48,56 @@ def searchEventsDist(longitude, latitude, dist):
 		print(e)
 		return []
 
+@app.route("/eventadd", methods=['POST'])
+def createEvent():
+	data = request.get_data()
+
+	try:
+		user_obj = Event(json.loads(data.decode('utf8')))
+		e = validateEvent(user_obj)
+		if (e != ""):
+			response = app.response_class(
+				response=json.dumps({"message" : e}),
+				status=400,
+				mimetype='application/json'
+			)
+		else:
+			docid = mongo_mlab.db.events.insert({
+	    		"title" : user_obj.get_title(),
+	    		"description" : user_obj.get_description(),
+	    		"geo_loc" : {
+	    			"type" : "Point",
+	    			"coordinates" : user_obj.get_geo_loc()
+	    		},
+	    		"place_id" : user_obj.get_place_id(),
+	    		"time" : user_obj.get_time(),
+	    		"owner" : user_obj.get_owner(),
+	    		"category" : user_obj.get_category(),
+	    		"attendees" : []
+	     	})
+			print(user_obj.get_owner())
+
+			res = mongo_mlab.db.active_users.find_one_and_update(
+				{ "_id" : ObjectId(user_obj.get_owner()) },
+				{ "$push" : { "events_attending" : str(docid) }}
+			)
+
+			print(res)
+			response = app.response_class(
+		        response=json.dumps({"id" : str(docid)}),
+		        status=200,
+		        mimetype='application/json'
+		    )	
+
+	except Exception as e:
+		print(e)
+		response = app.response_class(
+				response=json.dumps({"message":"An issue with server."}),
+				status=500,
+				mimetype='application/json'
+			)
+		
+	return response
 
 @app.route("/search/<longitude>/<latitude>/<dist>", methods=['GET'])
 def searchEvents(longitude, latitude, dist):
@@ -127,21 +116,10 @@ def searchEvents(longitude, latitude, dist):
 	else:
 		response = app.response_class(
 				response=json.dumps({"message":"No nearby events found."}),
-				status=500,
+				status=400,
 				mimetype='application/json'
 			)		
 	return response
-
-
-@app.route("/trial/<keywords>", methods=['GET'])
-def tryIt(keywords):
-	keywords_arr = map(lambda x : x.lower(), keywords.split(","))
-	print(list(keywords_arr))
-	return app.response_class(
-		response=json.dumps({"m" : "o"}),
-		status=200,
-		mimetype='application/json'
-		)
 
 @app.route("/search/<longitude>/<latitude>/<dist>/<keywords>", methods=['GET'])
 def searchEventsKeyword(longitude, latitude, dist, keywords):
@@ -167,7 +145,7 @@ def searchEventsKeyword(longitude, latitude, dist, keywords):
 	else:
 		response = app.response_class(
 				response=json.dumps({"message":"No nearby events with specified keywords found."}),
-				status=500,
+				status=400,
 				mimetype='application/json'
 			)		
 	return response
