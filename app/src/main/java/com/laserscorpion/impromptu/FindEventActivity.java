@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,6 +67,9 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
+                    InputMethodManager manager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
+                    searchBox.clearFocus();
                     return true;
                 }
                 return false;
