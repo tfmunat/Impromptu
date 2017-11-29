@@ -1,12 +1,18 @@
 # Impromptu
 
-[![Build Status](https://travis-ci.com/tfmunat/Impromptu.svg?token=RAHeoyGh3tm2ZseyagpW&branch=master)](https://travis-ci.com/tfmunat/Impromptu)
+## Continuous Integration Builds
 
-App for ASE 4156
+| CI Server | OS      | Status | Description |
+| --------- | ------- | ------ | ----------- |
+| Travis CI   | Android   | [![Build Status](https://travis-ci.org/tfmunat/Impromptu.svg?branch=master)](https://travis-ci.org/tfmunat/Impromptu) | Official CI build v1.0 |
+
+## Project Description
+
+'Impromptu' is an Android app built for ASE 4156 at Columbia University
 
 There are two versions to the Repository:
 
-The Master repository contains code for both Android frontend and Flask Server
+The 'master' branch contains the Android frontend code
 
-The develop branch contains code for Flask backend server development
+The 'development' branch contains the code for Flask backend server development
 - Please switch branch and check the installation instructions in the README of the development branch
