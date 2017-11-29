@@ -1,14 +1,22 @@
 package com.laserscorpion.impromptu;
 
+import android.Manifest;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,21 +26,29 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.Profile;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-
+import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
+import java.util.ArrayList;
+
+import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class CreateEventActivity extends FragmentActivity {
 
-    String title, description, category, time;
+    String title, description, category;
+    long time;
     private EditText e_title = (EditText)findViewById(R.id.event_title);
     private EditText e_desc = (EditText)findViewById(R.id.event_desc);
     private EditText e_category = (EditText)findViewById(R.id.event_category);
     View mapView;
     private GoogleMap mMap;
-    private int[] unixTime;
     private LocationManager locationManager;
     private static final String TAG = "FindCreateActivity";
 
@@ -40,12 +56,15 @@ public class CreateEventActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mapView = findViewById(R.id.map);
     }
 
     /**
      * Submit the new event details to the server
      * @param view the create button that was clicked
      */
+    /* need to make dure all fields were filled up */
     public void sendEventToDatabase(View view) {
         title = e_title.getText().toString();
         description = e_desc.getText().toString();
@@ -59,15 +78,52 @@ public class CreateEventActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    /* need to use the time and date data and also show it on the UI */
+    /* choose time */
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
+    /* choose date */
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
+
+    /* choose location on the map,*/
+    public void showLocation(GoogleMap googleMap) throws GooglePlayServicesNotAvailableException,
+            GooglePlayServicesRepairableException {
+        mMap = googleMap;
+        mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            } else {
+                Location currentLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                LatLng currentLatLng = new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+            }
+        }
+        int PLACE_PICKER_REQUEST = 1;
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     private void sendEventRegistrationDetails(final JSONObject eventInfo) {
 
@@ -129,7 +185,7 @@ public class CreateEventActivity extends FragmentActivity {
             eventDetails.put("description", description);
             //eventDetails.put("geo_loc", geo_loc);
             //eventDetails.put("place_id", place_id);
-            eventDetails.put("time", time);
+            // eventDetails.put("time", time);
             eventDetails.put("owner", facebookID);
             eventDetails.put("category", category);
         } catch (JSONException e) {
