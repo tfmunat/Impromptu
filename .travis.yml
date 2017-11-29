@@ -50,3 +50,4 @@ script:
   - java -version
   # Clean project and download missing dependencies and components
   - ./gradlew assembleDebug --stacktrace
+  - ./gradlew test --continue
