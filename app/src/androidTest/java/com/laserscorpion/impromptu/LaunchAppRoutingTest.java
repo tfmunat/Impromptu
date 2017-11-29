@@ -38,11 +38,13 @@ public class LaunchAppRoutingTest {
         prefs.edit().clear().commit();
     }
 
-    /*@After
+    @After
     public void tearDown() {
+        FacebookResourceLocator.setToken( null );
+        FacebookResourceLocator.setProfile( null );
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
         prefs.edit().clear().commit();
-    }*/
+    }
 
     @Test
     public void notLoggedInLaunchesFacebookLogin() {

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="sign_up_new_user_url">http://cae9ff50.ngrok.io/signup</string>
+    <string name="server_base_url">http://c95dde0c.ngrok.io</string>
+    <string name="sign_up_new_user_url">/signup</string>
+    <string name="search_url">/search</string>
 </resources>

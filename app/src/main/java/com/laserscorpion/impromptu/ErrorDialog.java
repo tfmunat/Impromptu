@@ -24,8 +24,9 @@ public class ErrorDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String message = getArguments().getString(MESSAGE_KEY);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.error_title));
-        builder.setMessage(message);
+        //builder.setTitle(getString(R.string.error_title));
+        //builder.setMessage(message);
+        builder.setTitle(message);
         builder.setCancelable(true);
         builder.setNegativeButton(getString(R.string.error_dialog_acknowledge_button), new DialogInterface.OnClickListener() {
             @Override
