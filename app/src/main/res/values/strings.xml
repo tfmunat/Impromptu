@@ -4,6 +4,7 @@
     <string name="title_activity_facebook_login">Login with Facebook</string>
     <string name="login_prompt">Sign in to Impromptu using your Facebook account! It\'s easy to find your friends and give away all your personal information without realizing it.</string>
     <string name="title_activity_find_event">Map</string>
+    <string name="title_activity_create_event">Create an Event</string>
     <string name="error_title">Something went wrong</string>
     <string name="error_dialog_acknowledge_button">Shucks</string>
     <string name="interests_prompt">What do you like to do? Please enter at least 3 things you would enjoy doing with other people.</string>
@@ -14,4 +15,14 @@
     <string name="example_interest5">e.g. video games</string>
     <string name="submit">Submit</string>
     <string name="get_started">Get Started!</string>
+    <string name="search">Search</string>
+    <string name="title">title</string>
+    <string name="description">description</string>
+    <string name="category_e_g_singing">category (e.g. Singing)</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="show_names">Show Names</string>
+    <string name="uni">UNI</string>
+    <string name="name">name</string>
+    <string name="event_page_header">Create an event!</string>
 </resources>

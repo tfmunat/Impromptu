@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/event_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textAllCaps="true"
+        android:textIsSelectable="false"
+
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="14dp"
+        android:background="#ffffff"
+        android:gravity="start|end"
+        android:hint="@string/title"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="10dp"
+        android:layout_below="@+id/event_title_header"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/event_desc"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/event_title"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="27dp"
+        android:background="#ffffff"
+        android:gravity="start|end"
+        android:hint="@string/description"
+        android:imeOptions="actionSearch"
+        android:inputType="text|textMultiLine"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/event_category"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/event_desc"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="28dp"
+        android:background="#ffffff"
+        android:gravity="start|end"
+        android:hint="@string/category_e_g_singing"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="10dp" />
+
+    <Button
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="51dp"
+        android:text="@string/date"
+        android:layout_below="@+id/event_category"
+        android:layout_alignStart="@+id/event_category" />
+
+    <Button
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/event_category"
+        android:layout_alignTop="@+id/date"
+        android:layout_marginEnd="63dp"
+        android:text="@string/time" />
+
+</RelativeLayout>
