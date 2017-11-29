@@ -18,11 +18,12 @@
     <string name="search">Search</string>
     <string name="title">title</string>
     <string name="description">description</string>
-    <string name="category_e_g_singing">category (e.g. Singing)</string>
+    <string name="category">category (e.g. Singing)</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="location">Location</string>
     <string name="show_names">Show Names</string>
     <string name="uni">UNI</string>
     <string name="name">name</string>
-    <string name="event_page_header">Create an event!</string>
+    <string name="create_event_button">Create Event</string>
 </resources>

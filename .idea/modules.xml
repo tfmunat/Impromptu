@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Impromptu.iml" filepath="$PROJECT_DIR$/Impromptu.iml" />
-      <module fileurl="file://$USER_HOME$/Documents/Columbia/w4156/hw4/Impromptu/Impromptu.iml" filepath="$USER_HOME$/Documents/Columbia/w4156/hw4/Impromptu/Impromptu.iml" />
+      <module fileurl="file://C:\Users\Tahmid Munat\Documents\Columbia\w4156\hw4\Impromptu\Impromptu.iml" filepath="C:\Users\Tahmid Munat\Documents\Columbia\w4156\hw4\Impromptu\Impromptu.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$USER_HOME$/Documents/Columbia/w4156/hw4/Impromptu/app/app.iml" filepath="$USER_HOME$/Documents/Columbia/w4156/hw4/Impromptu/app/app.iml" />
+      <module fileurl="file://C:\Users\Tahmid Munat\Documents\Columbia\w4156\hw4\Impromptu\app\app.iml" filepath="C:\Users\Tahmid Munat\Documents\Columbia\w4156\hw4\Impromptu\app\app.iml" />
     </modules>
   </component>
 </project>

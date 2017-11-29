@@ -10,10 +10,9 @@
         android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textAllCaps="true"
-        android:textIsSelectable="false"
+        android:layout_alignParentStart="true"
 
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="14dp"
         android:background="#ffffff"
@@ -22,8 +21,7 @@
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="10dp"
-        android:layout_below="@+id/event_title_header"
-        android:layout_alignParentStart="true" />
+        android:textIsSelectable="false" />
 
     <EditText
         android:id="@+id/event_desc"
@@ -54,28 +52,48 @@
         android:layout_marginTop="28dp"
         android:background="#ffffff"
         android:gravity="start|end"
-        android:hint="@string/category_e_g_singing"
+        android:hint="@string/category"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="10dp" />
 
     <Button
-        android:id="@+id/date"
+        android:id="@+id/date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="51dp"
-        android:text="@string/date"
+        android:layout_alignStart="@+id/event_category"
         android:layout_below="@+id/event_category"
-        android:layout_alignStart="@+id/event_category" />
+        android:layout_marginTop="53dp"
+        android:onClick="showDatePickerDialog"
+        android:text="@string/date" />
 
     <Button
-        android:id="@+id/time"
+        android:id="@+id/time_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/event_category"
-        android:layout_alignTop="@+id/date"
-        android:layout_marginEnd="63dp"
+        android:layout_above="@+id/create_event"
+        android:layout_centerHorizontal="true"
+        android:onClick="showTimePickerDialog"
         android:text="@string/time" />
+
+    <Button
+        android:id="@+id/create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
+        android:text="@string/create_event_button"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:onClick="sendEventToDatabase" />
+
+    <Button
+        android:id="@+id/loc_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/create_event"
+        android:layout_alignEnd="@+id/event_category"
+        android:text="@string/location"
+        android:onClick="showLocation" />
 
 </RelativeLayout>
