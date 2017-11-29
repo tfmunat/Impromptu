@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 //import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ public class CreateEventActivity extends FragmentActivity {
 
     String title, description, category;
     long time;
+    private Context context = this;
     private EditText e_title;
     private EditText e_desc;
     private EditText e_category;
@@ -65,6 +68,7 @@ public class CreateEventActivity extends FragmentActivity {
         e_title = (EditText)findViewById(R.id.event_title);
         e_desc = (EditText)findViewById(R.id.event_desc);
         e_category = (EditText)findViewById(R.id.event_category);
+
 
     }
 
@@ -98,11 +102,11 @@ public class CreateEventActivity extends FragmentActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
-
-    /* choose location on the map,*/
-    public void showLocation(GoogleMap googleMap) throws GooglePlayServicesNotAvailableException,
+    /*
+    // choose location on the map,
+    public void showLocation(View v) throws GooglePlayServicesNotAvailableException,
             GooglePlayServicesRepairableException {
-        mMap = googleMap;
+        mMap = new GoogleMap();
         mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -131,7 +135,7 @@ public class CreateEventActivity extends FragmentActivity {
             }
         }
     }
-
+    */
 
     private void sendEventRegistrationDetails(final JSONObject eventInfo) {
 
@@ -179,9 +183,8 @@ public class CreateEventActivity extends FragmentActivity {
 
     private JSONObject getEventDetails() {
         JSONObject eventDetails = new JSONObject();
-        Profile profile = Profile.getCurrentProfile();
-        String facebookID = profile.getId();
-
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String id = pref.getString("USER_ID", "");
         // get the details from entries and selections
         // title, description, category and time already populated
         //String geo_loc = ;
@@ -200,7 +203,7 @@ public class CreateEventActivity extends FragmentActivity {
             eventDetails.put("place_id", "64329874382");
             // eventDetails.put("time", time);
             eventDetails.put("time", new Date().getTime());
-            eventDetails.put("owner", Long.parseLong(facebookID));
+            eventDetails.put("owner", Long.parseLong(id));
             eventDetails.put("category", category);
             Log.d(TAG, eventDetails.toString());
         } catch (JSONException e) {
