@@ -33,10 +33,13 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
@@ -44,9 +47,9 @@ public class CreateEventActivity extends FragmentActivity {
 
     String title, description, category;
     long time;
-    private EditText e_title = (EditText)findViewById(R.id.event_title);
-    private EditText e_desc = (EditText)findViewById(R.id.event_desc);
-    private EditText e_category = (EditText)findViewById(R.id.event_category);
+    private EditText e_title;
+    private EditText e_desc;
+    private EditText e_category;
     View mapView;
     private GoogleMap mMap;
     private LocationManager locationManager;
@@ -58,6 +61,11 @@ public class CreateEventActivity extends FragmentActivity {
         setContentView(R.layout.activity_create_event);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mapView = findViewById(R.id.map);
+
+        e_title = (EditText)findViewById(R.id.event_title);
+        e_desc = (EditText)findViewById(R.id.event_desc);
+        e_category = (EditText)findViewById(R.id.event_category);
+
     }
 
     /**
@@ -129,7 +137,7 @@ public class CreateEventActivity extends FragmentActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = getString(R.string.server_base_url) + "/create";
+        String url = getString(R.string.server_base_url) + "/eventadd";
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -181,13 +189,20 @@ public class CreateEventActivity extends FragmentActivity {
 
         // populate eventDetails
         try {
+            ArrayList<Integer> geo = new ArrayList<>();
+            geo.add(-79);
+            geo.add(40);
             eventDetails.put("title", title);
             eventDetails.put("description", description);
             //eventDetails.put("geo_loc", geo_loc);
+            eventDetails.put("geo_loc", new JSONArray(geo));
             //eventDetails.put("place_id", place_id);
+            eventDetails.put("place_id", "64329874382");
             // eventDetails.put("time", time);
-            eventDetails.put("owner", facebookID);
+            eventDetails.put("time", new Date().getTime());
+            eventDetails.put("owner", Long.parseLong(facebookID));
             eventDetails.put("category", category);
+            Log.d(TAG, eventDetails.toString());
         } catch (JSONException e) {
             return null;
         }

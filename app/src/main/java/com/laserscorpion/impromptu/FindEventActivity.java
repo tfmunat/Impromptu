@@ -2,12 +2,14 @@ package com.laserscorpion.impromptu;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private Set<EventDetails> nearbyEvents;
     private EditText searchBox;
     View mapView;
+    Context context = this;
 
 
     @Override
@@ -73,6 +76,14 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                     return true;
                 }
                 return false;
+            }
+        });
+
+        FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.myFAB);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CreateEventActivity.class);
+                startActivity(intent);
             }
         });
     }
