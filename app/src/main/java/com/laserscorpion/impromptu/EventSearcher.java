@@ -84,6 +84,10 @@ public class EventSearcher {
                     listener.onRequestFailed("Received error " + responseCode);
                     return;
                 }
+                if (responseCode == 400) {
+                    listener.onRequestFailed("No results found for that search");
+                    return;
+                }
                 String body = readStream(connection.getInputStream());
                 Log.d(TAG, "Received body: " + body);
                 ArrayList<EventDetails> events = parseEvents(body);
@@ -124,7 +128,13 @@ public class EventSearcher {
                     Log.e(TAG, "possibly bad place id received, or sth: " + placeID);
                     continue;
                 }
-                Place place = someshit.getResult().get(0);
+                Place place;
+                try {
+                    place = someshit.getResult().get(0);
+                } catch (Exception e) {
+                    Log.e(TAG, "bad place id received: " + placeID);
+                    continue;
+                }
                 if (place == null) {
                     Log.e(TAG, "bad place id received: " + placeID);
                     continue;
@@ -161,7 +171,7 @@ public class EventSearcher {
         }
 
         private boolean errorCode(int responseCode) {
-            return responseCode >= 400;
+            return responseCode > 400;
         }
 
         private String readStream(InputStream stream) throws SocketTimeoutException, IOException {
