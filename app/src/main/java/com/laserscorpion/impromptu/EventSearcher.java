@@ -43,7 +43,7 @@ public class EventSearcher {
 
     public void search(LatLng location, int meters, Collection<String> keywords) {
         String baseURL = context.getString(R.string.server_base_url) + context.getString(R.string.search_url);
-        String requestURL = baseURL + '/' + location.latitude + '/' + location.longitude + '/' + meters;
+        String requestURL = baseURL + '/' + location.longitude + '/' + location.latitude + '/' + meters;
         if (keywords.size() > 0)
             requestURL += '/';
         for (String keyword : keywords) {
