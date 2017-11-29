@@ -1,8 +1,11 @@
 package com.laserscorpion.impromptu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,8 +34,10 @@ import java.util.Map;
  * After submitting this, they can start using the app.
  */
 public class BasicProfileCompletionActivity extends Activity {
+    private Context context = this;
     private static final int NUM_LIKES = 5;
     private static final String TAG = "BasicProfileCompletion";
+    private static final String USER_ID = "impromptu_user_id";
 
 
     @Override
@@ -67,6 +72,20 @@ public class BasicProfileCompletionActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "here's the response \n" + response);
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(response);
+                            String id = json.getString("id");
+                            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString(USER_ID, id);
+                            editor.commit();
+                        } catch (JSONException e) {
+                            ErrorDialog dialog = ErrorDialog.newInstance("Got bad JSON from server, can't log in");
+                            dialog.show(getFragmentManager(), "SignupError");
+                            e.printStackTrace();
+                            return;
+                        }
                         startMapActivity();
                     }
                 }, new Response.ErrorListener() {
