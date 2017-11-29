@@ -74,14 +74,21 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".CreateEventActivity"
             android:label="@string/title_activity_create_event">
         </activity>
+
         <activity
             android:name=".FindEventActivity"
             android:label="@string/title_activity_find_event">
         </activity>
+        
         <activity android:name=".LaunchAppRoutingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -89,6 +96,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        
         <activity android:name=".BasicProfileCompletionActivity">
         </activity>
     </application>

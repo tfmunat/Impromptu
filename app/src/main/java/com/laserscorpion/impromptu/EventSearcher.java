@@ -2,10 +2,12 @@ package com.laserscorpion.impromptu;
 
 import android.content.Context;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.location.places.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
@@ -28,6 +30,7 @@ import java.util.Date;
 import javax.net.ssl.HttpsURLConnection;
 
 public class EventSearcher {
+    private EventSearcher es = this;
     private EventRequestReceiver listener;
     private Context context;
 
@@ -40,7 +43,7 @@ public class EventSearcher {
 
     public void search(LatLng location, int meters, Collection<String> keywords) {
         String baseURL = context.getString(R.string.server_base_url) + context.getString(R.string.search_url);
-        String requestURL = baseURL + '/' + location.latitude + '/' + location.longitude + '/' + meters;
+        String requestURL = baseURL + '/' + location.longitude + '/' + location.latitude + '/' + meters;
         if (keywords.size() > 0)
             requestURL += '/';
         for (String keyword : keywords) {
@@ -115,23 +118,46 @@ public class EventSearcher {
                 String placeID = obj.getString("place_id");
                 GeoDataClient client = Places.getGeoDataClient(context, null);
 
-                ////////////////////////////////////////////////
-                // this part is broken
                 Task<PlaceBufferResponse> someshit = client.getPlaceById(placeID);
+                while (!someshit.isComplete()) {} // spinlock because this is already a background thread
+                if (!someshit.isSuccessful()) {
+                    Log.e(TAG, "possibly bad place id received, or sth: " + placeID);
+                    continue;
+                }
                 Place place = someshit.getResult().get(0);
+                if (place == null) {
+                    Log.e(TAG, "bad place id received: " + placeID);
+                    continue;
+                }
                 event.place = place;
-                ////////////////////////////////////////////////
 
-                // todo: get Google place
                 JSONArray attendees = obj.getJSONArray("attendees");
-                //todo parse attendees
-                JSONObject geo_loc = obj.getJSONObject("geo_loc");
-                // todo parse lat/long
+                event.attendees = new ArrayList<>();
+                for (int j = 0; j < attendees.length(); j++) {
+                    String name = attendees.getString(j);
+                    event.attendees.add(name);
+                }
+
+                /*JSONObject geo_loc = obj.getJSONObject("geo_loc");
+                JSONArray coords = geo_loc.getJSONArray("coordinates");
+                double latitude = coords.getDouble(0);
+                double longitude = coords.getDouble(1);*/
+
                 event.time = new Date(obj.getLong("time"));
 
                 result.add(event);
             }
             return result;
+        }
+
+
+
+        private synchronized void waitUninteruptibly() {
+            while (true) {
+                try {
+                    wait(10000);
+                } catch (InterruptedException e) {}
+            }
         }
 
         private boolean errorCode(int responseCode) {

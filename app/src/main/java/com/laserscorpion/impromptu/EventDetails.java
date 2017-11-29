@@ -13,6 +13,6 @@ public class EventDetails {
     public String title;
     public String category;
     public Place place;
-    public ArrayList<Person> attendees;
+    public ArrayList<String> attendees;
     public Date time;
 }

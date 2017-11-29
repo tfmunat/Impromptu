@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,6 +67,9 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
+                    InputMethodManager manager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
+                    searchBox.clearFocus();
                     return true;
                 }
                 return false;
@@ -77,6 +81,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -133,16 +138,23 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         nearbyEvents.addAll(events);
         for (EventDetails event : nearbyEvents) {
             LatLng latlng = event.place.getLatLng();
-            MarkerOptions marker = new MarkerOptions();
+            final MarkerOptions marker = new MarkerOptions();
             marker.position(latlng);
-            marker.title(event.title + "\nHost: " + event.owner + "\nAt: " + event.place.getName());
-            mMap.addMarker(marker);
+            marker.title(event.title);
+            marker.snippet("\nHost: " + event.owner + "\nVenue: " + event.place.getName() + "\n" + event.time);
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    mMap.addMarker(marker);
+                }
+            });
+
         }
     }
 
     @Override
     public void onRequestFailed(String reason) {
-
+        ErrorDialog dialog = ErrorDialog.newInstance(reason);
+        dialog.show(getFragmentManager(), "HTTP Error");
     }
 
 

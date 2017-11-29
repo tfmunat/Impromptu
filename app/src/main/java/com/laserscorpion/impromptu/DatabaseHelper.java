@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String uni = result.getString(result.getColumnIndex("uni"));
             Person person = new Person();
             person.name = name;
-            person.uni = uni;
+            //person.uni = uni;
             person.id = id;
             people.add(person);
         }
