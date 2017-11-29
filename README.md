@@ -6,7 +6,9 @@
 | --------- | ------- | ------ | ----------- |
 | Travis CI   | Android   | [![Build Status](https://travis-ci.org/tfmunat/Impromptu.svg?branch=master)](https://travis-ci.org/tfmunat/Impromptu) | Official CI build v1.0 |
 
-'Impromptu' Android app for ASE 4156
+## Project Description
+
+'Impromptu' is an Android app built for ASE 4156 at Columbia University
 
 There are two versions to the Repository:
 
