@@ -48,6 +48,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
     private EditText searchBox;
+    LatLng currentLatLng;
     View mapView;
     Context context = this;
 
@@ -65,9 +66,9 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         searchBox = (EditText) findViewById(R.id.search_box);
         mapView = findViewById(R.id.map);
 
-        searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener(){
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
                     InputMethodManager manager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -101,13 +102,11 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             } else {
                 Location currentLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (currentLoc == null) {
-                    currentLoc = new Location("");
-                    currentLoc.setLatitude(40.8075);
-                    currentLoc.setLongitude(-73.9619);
+                    mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(40.8075,-73.9619) , 14f) );
+                } else {
+                    mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(currentLoc.getLatitude(),
+                            currentLoc.getLongitude()) , 14f) );
                 }
-                LatLng currentLatLng = new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
             }
         }
 

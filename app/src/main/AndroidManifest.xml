@@ -88,7 +88,12 @@
             android:name=".FindEventActivity"
             android:label="@string/title_activity_find_event">
         </activity>
-        
+
+        <activity
+            android:name=".JoinEventActivity"
+            android:label="@string/title_activity_join_event">
+        </activity>
+
         <activity android:name=".LaunchAppRoutingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
