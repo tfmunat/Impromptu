@@ -141,6 +141,7 @@ public class BasicProfileCompletionActivity extends Activity {
             userDetails.put("first_name", firstName);
             userDetails.put("last_name", lastName);
             userDetails.put("fb_id", facebookID);
+            Log.d(TAG, facebookID);
             userDetails.put("likes", new JSONArray(interests.toArray()));
             //Log.d(TAG, userDetails.toString(4));
         } catch (JSONException e) {

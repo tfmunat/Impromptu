@@ -189,13 +189,8 @@ public class CreateEventActivity extends FragmentActivity {
         }
         time = unixTime();
 
-
-        // get the details from entries and selections
-        // title, description, category and time already populated
-        //String geo_loc = ;
-        //String place_id = ;
-
         // populate eventDetails
+        // http://0ab956b6.ngrok.io\
         LatLng latlng = eventPlace.getLatLng();
 
         ArrayList<Double> geo = new ArrayList<>();
@@ -205,11 +200,8 @@ public class CreateEventActivity extends FragmentActivity {
 
             eventDetails.put("title", title);
             eventDetails.put("description", description);
-            //eventDetails.put("geo_loc", geo_loc);
             eventDetails.put("geo_loc", new JSONArray(geo));
-            //eventDetails.put("place_id", place_id);
             eventDetails.put("place_id", eventPlace.getId());
-            // eventDetails.put("time", time);
             eventDetails.put("time", time);
             eventDetails.put("owner", id);
             eventDetails.put("category", category);

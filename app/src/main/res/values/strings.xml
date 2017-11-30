@@ -16,7 +16,7 @@
     <string name="example_interest5">e.g. video games</string>
     <string name="submit">Submit</string>
     <string name="get_started">Get Started!</string>
-    <string name="search">Search</string>
+    <string name="search">Search for an event by category</string>
     <string name="title">title</string>
     <string name="description">description</string>
     <string name="category">category (e.g. Singing)</string>
