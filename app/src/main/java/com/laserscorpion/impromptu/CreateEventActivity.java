@@ -89,8 +89,8 @@ public class CreateEventActivity extends FragmentActivity {
 
 
     public long unixTime() {
-        dateSeconds = tFragment.getSeconds();
-        timeSeconds = dFragment.getSeconds();
+        dateSeconds = dFragment.getSeconds();
+        timeSeconds = tFragment.getSeconds();
         return  (dateSeconds+timeSeconds);
     }
 
