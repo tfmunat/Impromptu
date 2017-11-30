@@ -196,6 +196,17 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 return;
             }
 
+            /*
+            // https://stackoverflow.com/questions/16677929/android-google-map-v2-starting-activity-when-clicking-on-marker-infowindow
+            Mymap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                   Intent intent = new Intent(MapActivity.this,OtherActivity.class);
+                   startActivity(intent);
+                }
+            });
+            */
+
             // other 'case' lines to check for other
             // permissions this app might request
         }

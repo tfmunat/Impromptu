@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,4 +16,4 @@
         tools:layout_editor_absoluteX="124dp"
         tools:layout_editor_absoluteY="347dp"
         android:onClick="joinEvent" />
-</RelativeLayout>
+</LinearLayout>

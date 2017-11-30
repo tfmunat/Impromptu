@@ -122,15 +122,15 @@ public class EventSearcher {
                 String placeID = obj.getString("place_id");
                 GeoDataClient client = Places.getGeoDataClient(context, null);
 
-                Task<PlaceBufferResponse> someshit = client.getPlaceById(placeID);
-                while (!someshit.isComplete()) {} // spinlock because this is already a background thread
-                if (!someshit.isSuccessful()) {
+                Task<PlaceBufferResponse> someTask = client.getPlaceById(placeID);
+                while (!someTask.isComplete()) {} // spinlock because this is already a background thread
+                if (!someTask.isSuccessful()) {
                     Log.e(TAG, "possibly bad place id received, or sth: " + placeID);
                     continue;
                 }
                 Place place;
                 try {
-                    place = someshit.getResult().get(0);
+                    place = someTask.getResult().get(0);
                 } catch (Exception e) {
                     Log.e(TAG, "bad place id received: " + placeID);
                     continue;
@@ -188,6 +188,5 @@ public class EventSearcher {
             }
             return result;
         }
-
     }
 }

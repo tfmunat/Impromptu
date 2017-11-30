@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class JoinEventActivity extends FragmentActivity {
 
-    String id;
+    public String id;
     public String owner;
     public String ownerName;
     public String description;
@@ -30,6 +30,6 @@ public class JoinEventActivity extends FragmentActivity {
 
     /* join when the button is clicked */
     public void joinEvent(View v){
-
+        // todo
     }
 }
