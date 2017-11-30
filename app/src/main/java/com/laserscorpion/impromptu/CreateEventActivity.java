@@ -45,7 +45,7 @@ import java.util.Date;
 
 import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
-public class CreateEventActivity extends FragmentActivity {
+public class CreateEventActivity extends FragmentActivity implements TimePickerFragment.timeListener, DatePickerFragment.dateListener {
     private CreateEventActivity activity = this;
     String title, description, category, eventID;
     long time, dateSeconds, timeSeconds;
@@ -97,16 +97,22 @@ public class CreateEventActivity extends FragmentActivity {
     /* choose time */
     public void showTimePickerDialog(View v) {
         TimePickerFragment newFragment = new TimePickerFragment();
+        newFragment.setListener(this);
         newFragment.show(getFragmentManager(), "timePicker");
-        timeSeconds = newFragment.getSeconds();
+    }
+
+    public void setTimeSeconds(long seconds) {
+        timeSeconds = seconds;
+    }
+    public void setDateSeconds(long seconds) {
+        dateSeconds = seconds;
     }
 
     /* choose date */
     public void showDatePickerDialog(View v) {
         DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setListener(this);
         newFragment.show(getFragmentManager(), "datePicker");
-
-        dateSeconds = newFragment.getSeconds();
     }
 
     // choose location on the map,

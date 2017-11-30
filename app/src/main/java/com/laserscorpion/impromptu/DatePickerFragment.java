@@ -15,6 +15,12 @@ public class DatePickerFragment extends DialogFragment
 
 
     Date realDate;
+    dateListener listener;
+
+    public void setListener(dateListener callback) {
+        listener = callback;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -27,13 +33,15 @@ public class DatePickerFragment extends DialogFragment
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
-    public long getSeconds() {
-        Log.d("datepicker", realDate.toString());
-        return realDate.getTime();
-    }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public synchronized void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         realDate = new Date(year, month, day);
+        listener.setDateSeconds(realDate.getTime());
     }
+
+    public interface dateListener {
+        void setDateSeconds(long seconds);
+    }
+
 }

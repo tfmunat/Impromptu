@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment
@@ -16,6 +17,11 @@ public class TimePickerFragment extends DialogFragment
 
     int hours;
     int minutes;
+    timeListener listener;
+
+    public void setListener(timeListener callback) {
+        listener = callback;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -29,7 +35,7 @@ public class TimePickerFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-    public long getSeconds() {
+    private long getSeconds() {
         return (hours * 60 * 60) + (minutes * 60);
 
     }
@@ -39,5 +45,10 @@ public class TimePickerFragment extends DialogFragment
 
         hours = hourOfDay;
         minutes = minute;
+        listener.setTimeSeconds(getSeconds());
+    }
+
+    public interface timeListener {
+        void setTimeSeconds(long seconds);
     }
 }
