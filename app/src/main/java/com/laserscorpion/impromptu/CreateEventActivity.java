@@ -141,7 +141,7 @@ public class CreateEventActivity extends FragmentActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = getString(R.string.server_base_url) + "/eventadd";
+        String url = getString(R.string.server_base_url) + getString(R.string.create_url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
