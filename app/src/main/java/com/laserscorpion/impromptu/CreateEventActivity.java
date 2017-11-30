@@ -49,6 +49,7 @@ public class CreateEventActivity extends FragmentActivity {
 
     String title, description, category;
     long time;
+    private Context context = this;
     private EditText e_title;
     private EditText e_desc;
     private EditText e_category;
@@ -70,6 +71,7 @@ public class CreateEventActivity extends FragmentActivity {
         e_title = (EditText)findViewById(R.id.event_title);
         e_desc = (EditText)findViewById(R.id.event_desc);
         e_category = (EditText)findViewById(R.id.event_category);
+
 
     }
 
@@ -104,10 +106,9 @@ public class CreateEventActivity extends FragmentActivity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    /* choose location on the map,*/
-    public void showLocation(View view) throws GooglePlayServicesNotAvailableException,
+    // choose location on the map,
+    public void showLocation(View v) throws GooglePlayServicesNotAvailableException,
             GooglePlayServicesRepairableException {
-
         int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
@@ -129,14 +130,15 @@ public class CreateEventActivity extends FragmentActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = getString(R.string.server_base_url) + "/eventadd";
+        String url = getString(R.string.server_base_url) + getString(R.string.create_url);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "here's the response \n" + response);
+                        Log.d(TAG, "cool, here's the response \n" + response);
+                        // todo save this ID
                         startMapActivity();
                     }
                 }, new Response.ErrorListener() {
@@ -171,6 +173,7 @@ public class CreateEventActivity extends FragmentActivity {
 
     private JSONObject getEventDetails() {
         JSONObject eventDetails = new JSONObject();
+
         Profile profile = Profile.getCurrentProfile();
         String facebookID = profile.getId();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -182,6 +185,8 @@ public class CreateEventActivity extends FragmentActivity {
         if (eventPlace == null) {
             Log.e(TAG, "don't have place?!?!");
         }
+
+
 
         // get the details from entries and selections
         // title, description, category and time already populated
@@ -195,7 +200,6 @@ public class CreateEventActivity extends FragmentActivity {
         geo.add(latlng.longitude);
         geo.add(latlng.latitude);
         try {
-
 
             eventDetails.put("title", title);
             eventDetails.put("description", description);
