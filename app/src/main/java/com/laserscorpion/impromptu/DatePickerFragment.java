@@ -4,14 +4,17 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    String date;
+
+    Date realDate;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -24,8 +27,13 @@ public class DatePickerFragment extends DialogFragment
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
+    public long getSeconds() {
+        Log.d("datepicker", realDate.toString());
+        return realDate.getTime();
+    }
+
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        date = Integer.toString(year) + Integer.toString(month) + Integer.toString(day);
+        realDate = new Date(year, month, day);
     }
 }

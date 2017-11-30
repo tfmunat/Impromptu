@@ -46,9 +46,9 @@ import java.util.Date;
 import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class CreateEventActivity extends FragmentActivity {
-
-    String title, description, category;
-    long time;
+    private CreateEventActivity activity = this;
+    String title, description, category, eventID;
+    long time, dateSeconds, timeSeconds;
     private Context context = this;
     private EditText e_title;
     private EditText e_desc;
@@ -96,14 +96,17 @@ public class CreateEventActivity extends FragmentActivity {
     /* need to use the time and date data and also show it on the UI */
     /* choose time */
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
+        TimePickerFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
+        timeSeconds = newFragment.getSeconds();
     }
 
     /* choose date */
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
+
+        dateSeconds = newFragment.getSeconds();
     }
 
     // choose location on the map,
@@ -126,6 +129,7 @@ public class CreateEventActivity extends FragmentActivity {
     }
 
 
+
     private void sendEventRegistrationDetails(final JSONObject eventInfo) {
 
         // Instantiate the RequestQueue.
@@ -138,14 +142,24 @@ public class CreateEventActivity extends FragmentActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "cool, here's the response \n" + response);
-                        // todo save this ID
-                        startMapActivity();
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            eventID = json.getString("id");
+                            // todo save this ID
+                            String toastMsg = String.format("Success!");
+                            Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");
+                            dialog.show(getFragmentManager(), "CreateError");
+                            e.printStackTrace();
+                        }
+                        activity.finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
-                ErrorDialog dialog = ErrorDialog.newInstance(error.getMessage());
+                ErrorDialog dialog = ErrorDialog.newInstance(error.toString());
                 dialog.show(getFragmentManager(), "CreateError");
             }
         }) {
@@ -180,12 +194,18 @@ public class CreateEventActivity extends FragmentActivity {
         String id  = prefs.getString(USER_ID, null);
         if (id == null) {
             // bad
+            ErrorDialog dialog = ErrorDialog.newInstance("Missing user ID, can't create event");
+            dialog.show(getFragmentManager(), "CreateError");
             Log.e(TAG, "don't have id?!?!");
+            return null;
         }
         if (eventPlace == null) {
+            ErrorDialog dialog = ErrorDialog.newInstance("Must select place, can't create event");
+            dialog.show(getFragmentManager(), "CreateError");
             Log.e(TAG, "don't have place?!?!");
+            return null;
         }
-
+        time = dateSeconds + timeSeconds;
 
 
         // get the details from entries and selections
@@ -208,7 +228,7 @@ public class CreateEventActivity extends FragmentActivity {
             //eventDetails.put("place_id", place_id);
             eventDetails.put("place_id", eventPlace.getId());
             // eventDetails.put("time", time);
-            eventDetails.put("time", new Date().getTime());
+            eventDetails.put("time", time);
             eventDetails.put("owner", id);
             eventDetails.put("category", category);
             Log.d(TAG, eventDetails.toString());

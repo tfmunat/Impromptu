@@ -13,7 +13,10 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    String time;
+
+    int hours;
+    int minutes;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -26,10 +29,15 @@ public class TimePickerFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
 
+    public long getSeconds() {
+        return (hours * 60 * 60) + (minutes * 60);
 
+    }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        time = Integer.toString(hourOfDay) + Integer.toString(minute);
+
+        hours = hourOfDay;
+        minutes = minute;
     }
 }
