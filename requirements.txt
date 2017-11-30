@@ -4,7 +4,7 @@ coverage==4.4.2
 Flask==0.12.2
 Flask-PyMongo==0.5.1
 funcsigs==1.0.2
--e git+https://github.com/tfmunat/Impromptu.git@8065332c4ab2e752b1ea547f64aa8bfdf9822427#egg=Impromptu
+-e git+https://github.com/tfmunat/Impromptu.git@ba952055fe3f3fbf98c2013c9c734bd2d1ca2948#egg=Impromptu
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
