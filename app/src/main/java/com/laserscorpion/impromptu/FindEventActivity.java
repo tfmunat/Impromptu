@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -110,8 +111,14 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             }
         }
 
-        search();
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(FindEventActivity.this,JoinEventActivity.class);
+                startActivity(intent);
+            }
+        });
+        //search();
     }
 
     private float getWidth() {
@@ -156,13 +163,19 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             final MarkerOptions marker = new MarkerOptions();
             marker.position(latlng);
             marker.title(event.title);
-            marker.snippet("\nHost: " + event.owner + "\nVenue: " + event.place.getName() + "\n" + event.time);
+            if (event.attendees.size() == 0){
+                marker.snippet("\nHost: " + event.ownerName + "\nVenue: " + event.place.getName() +
+                        "\nAttendees: None" + "\n" + event.time);
+            } else if(event.attendees.size() > 0){
+                marker.snippet("\nHost: " + event.ownerName + "\nVenue: " + event.place.getName() +
+                        "\nAttendees: " + event.attendees + "\n" + event.time);
+            }
+
             runOnUiThread(new Runnable() {
                 public void run() {
                     mMap.addMarker(marker);
                 }
             });
-
         }
     }
 
@@ -181,7 +194,10 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                            ActivityCompat.checkSelfPermission(this,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // this will never happen
                         return;
                     }
@@ -195,18 +211,6 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 }
                 return;
             }
-
-            /*
-            // https://stackoverflow.com/questions/16677929/android-google-map-v2-starting-activity-when-clicking-on-marker-infowindow
-            Mymap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-                   Intent intent = new Intent(MapActivity.this,OtherActivity.class);
-                   startActivity(intent);
-                }
-            });
-            */
-
             // other 'case' lines to check for other
             // permissions this app might request
         }

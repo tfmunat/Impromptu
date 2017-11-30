@@ -13,7 +13,6 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-
     int hours;
     int minutes;
 
@@ -29,7 +28,7 @@ public class TimePickerFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-    public long getSeconds() {
+    public int getSeconds() {
         return (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
 
     }

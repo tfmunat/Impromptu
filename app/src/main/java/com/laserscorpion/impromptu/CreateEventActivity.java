@@ -44,6 +44,7 @@ public class CreateEventActivity extends FragmentActivity {
     private Place eventPlace;
     private static final String TAG = "CreateEventActivity";
     private static final String USER_ID = "impromptu_user_id";
+    private String eventIDsaved;
     TimePickerFragment tFragment;
     DatePickerFragment dFragment;
 
@@ -91,7 +92,7 @@ public class CreateEventActivity extends FragmentActivity {
     public long unixTime() {
         dateSeconds = dFragment.getSeconds();
         timeSeconds = tFragment.getSeconds();
-        return  (dateSeconds+timeSeconds);
+        return  (timeSeconds + dateSeconds);
     }
 
     // choose location on the map,
@@ -130,7 +131,7 @@ public class CreateEventActivity extends FragmentActivity {
                         try {
                             JSONObject json = new JSONObject(response);
                             eventID = json.getString("id");
-                            // todo save this ID
+                            eventIDsaved = eventID;
                             String toastMsg = String.format("Success!");
                             Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
