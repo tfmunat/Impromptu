@@ -1,21 +1,14 @@
 package com.laserscorpion.impromptu;
 
-import android.Manifest;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 //import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,13 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.Profile;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -41,36 +31,34 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.*;
 import java.util.ArrayList;
-import java.util.Date;
-
 import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class CreateEventActivity extends FragmentActivity {
     private CreateEventActivity activity = this;
     String title, description, category, eventID;
     long time, dateSeconds, timeSeconds;
-    private Context context = this;
     private EditText e_title;
     private EditText e_desc;
     private EditText e_category;
     View mapView;
     private Place eventPlace;
-    private GoogleMap mMap;
-    private LocationManager locationManager;
     private static final String TAG = "CreateEventActivity";
     private static final String USER_ID = "impromptu_user_id";
-
+    TimePickerFragment tFragment;
+    DatePickerFragment dFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mapView = findViewById(R.id.map);
 
         e_title = (EditText)findViewById(R.id.event_title);
         e_desc = (EditText)findViewById(R.id.event_desc);
         e_category = (EditText)findViewById(R.id.event_category);
+
+        tFragment = new TimePickerFragment();
+        dFragment = new DatePickerFragment();
 
 
     }
@@ -79,7 +67,7 @@ public class CreateEventActivity extends FragmentActivity {
      * Submit the new event details to the server
      * @param view the create button that was clicked
      */
-    /* need to make dure all fields were filled up */
+    /* need to make sure all fields were filled up */
     public void sendEventToDatabase(View view) {
         title = e_title.getText().toString();
         description = e_desc.getText().toString();
@@ -88,25 +76,22 @@ public class CreateEventActivity extends FragmentActivity {
         sendEventRegistrationDetails(eventDetails);
     }
 
-    private void startMapActivity() {
-        Intent intent = new Intent(this, FindEventActivity.class);
-        startActivity(intent);
-    }
-
     /* need to use the time and date data and also show it on the UI */
     /* choose time */
     public void showTimePickerDialog(View v) {
-        TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(), "timePicker");
-        timeSeconds = newFragment.getSeconds();
+        tFragment.show(getFragmentManager(), "timePicker");
     }
 
     /* choose date */
     public void showDatePickerDialog(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
+        dFragment.show(getFragmentManager(), "datePicker");
+    }
 
-        dateSeconds = newFragment.getSeconds();
+
+    public long unixTime() {
+        dateSeconds = tFragment.getSeconds();
+        timeSeconds = dFragment.getSeconds();
+        return  (dateSeconds+timeSeconds);
     }
 
     // choose location on the map,
@@ -187,9 +172,6 @@ public class CreateEventActivity extends FragmentActivity {
 
     private JSONObject getEventDetails() {
         JSONObject eventDetails = new JSONObject();
-
-        Profile profile = Profile.getCurrentProfile();
-        String facebookID = profile.getId();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String id  = prefs.getString(USER_ID, null);
         if (id == null) {
@@ -205,7 +187,7 @@ public class CreateEventActivity extends FragmentActivity {
             Log.e(TAG, "don't have place?!?!");
             return null;
         }
-        time = dateSeconds + timeSeconds;
+        time = unixTime();
 
 
         // get the details from entries and selections
