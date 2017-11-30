@@ -90,7 +90,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) throws java.lang.NullPointerException{
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
 
@@ -100,6 +100,11 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                         MY_PERMISSIONS_REQUEST_LOCATION);
             } else {
                 Location currentLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (currentLoc == null) {
+                    currentLoc = new Location("");
+                    currentLoc.setLatitude(40.8075);
+                    currentLoc.setLongitude(-73.9619);
+                }
                 LatLng currentLatLng = new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
                 mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
