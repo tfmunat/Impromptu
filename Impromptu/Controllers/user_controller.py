@@ -59,18 +59,22 @@ def validateUser(user_obj):
 def getUserDetails(attendees):
         attendees_obj_ids = [ObjectId(i) for i in attendees]
         print(attendees_obj_ids)
-        user_names = []
+        user_names = set()
         try:
             users = mongo_mlab.db.active_users.find(
                     {"_id" : {"$in" : attendees_obj_ids} }
                 )
 
             for user in users:
-                user_names.append(user["first_name"] + " " + user["last_name"])
+                name = user["first_name"] + " " + user["last_name"]
+                if name not in user_names:
+                    user_names.add(name)
+                else:
+                    continue
 
             print(user_names)
 
-            return user_names
+            return list(user_names)
 
         except Exception as e:
             print(e)
@@ -98,9 +102,12 @@ def fetchEvents(user_id):
         response_arr = []
 
         for event in event_details:
+            print(event)
             owner = getUserDetails([event['owner']])
             users = getUserDetails(event['attendees'])
             del event['attendees']
+            print('Owner', owner)
+            print('users', users)
             event['owner_name'] = owner[0]
             event['_id'] = str(event['_id'])
             event['attendees'] = users

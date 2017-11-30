@@ -86,7 +86,7 @@ class TestCaseUserController(unittest.TestCase):
     def test_getUserDetails(self, mock_MongoClient):
         mock_MongoClient.return_value = self.mock_server
         with self.context:
-            userID_valid = ["5a1b712f7f66218ffdcc8536"]
+            userID_valid = ["5a204d522514972c1872221a"]
 
             assert len(getUserDetails(userID_valid)) == 1
 
@@ -98,7 +98,7 @@ class TestCaseUserController(unittest.TestCase):
     def test_fetchEvents(self, mock_MongoClient):
         mock_MongoClient.return_value = self.mock_server
         with self.context:
-            userID_valid = "5a1b712f7f66218ffdcc8536"
+            userID_valid = "5a204d522514972c1872221a"
 
             rv = fetchEvents(userID_valid)
             assert rv.status_code == 200
@@ -110,8 +110,6 @@ class TestCaseUserController(unittest.TestCase):
 
             rv = fetchEvents(None)
             assert rv == 'No'
-    #@mock.patch('flask_pymongo.MongoClient')
-    #def
 
 class TestCaseAttendanceController(unittest.TestCase):
     def setUp(self):
@@ -135,8 +133,8 @@ class TestCaseAttendanceController(unittest.TestCase):
     def test_notify(self):
 
         correct_dataload = json.dumps({
-            'event_id':"5a1b86997f66217805531fa8",
-            'user_id':"5a1dbc9425149725f8667c47"})
+            'event_id':"5a204d522514972c1872221b",
+            'user_id':"5a204d522514972c1872221a"})
         rv = self.notify(correct_dataload)
         assert rv.status_code == 200
 
@@ -148,7 +146,7 @@ class TestCaseAttendanceController(unittest.TestCase):
 
         incorrect_dataload = json.dumps({
             'a':"5a1b86997f66217805531f12",
-            'b':"5a1dbc9425149725f8667c22"})
+            'b':"5a2047dc251497093c4fd6ec"})
         rv = self.notify(incorrect_dataload)
         print(rv)
         assert rv.status_code == 400
@@ -189,9 +187,9 @@ class TestCaseEventController(unittest.TestCase):
             41.09,
             78.0
             ],
-            "place_id": "Mel's Burgers",
+            "place_id": "ChIJ47x-nTv2wokR1ex6E_loTYs",
             "time": 1493300103526,
-            "owner": '5a1dbc9425149725f8667c47',
+            "owner": '5a204d522514972c1872221a',
             "category": "Singing"
             })
         rv = self.createEvent(correct_dataload)

@@ -65,4 +65,11 @@ Impromptu/dbAdapter.pyc
 Impromptu/config/dbConfigC.json
 .idea
 Impromptu/.coverage
-.coverage
+.coverage
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+.elasticbeanstalk/config.yml
+Impromptu/dbAdapter.sublime-workspace
+Impromptu/Test/.coverage
