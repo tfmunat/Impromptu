@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 //import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
@@ -51,9 +53,12 @@ public class CreateEventActivity extends FragmentActivity {
     private EditText e_desc;
     private EditText e_category;
     View mapView;
+    private Place eventPlace;
     private GoogleMap mMap;
     private LocationManager locationManager;
-    private static final String TAG = "FindCreateActivity";
+    private static final String TAG = "CreateEventActivity";
+    private static final String USER_ID = "impromptu_user_id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,22 +105,9 @@ public class CreateEventActivity extends FragmentActivity {
     }
 
     /* choose location on the map,*/
-    public void showLocation(GoogleMap googleMap) throws GooglePlayServicesNotAvailableException,
+    public void showLocation(View view) throws GooglePlayServicesNotAvailableException,
             GooglePlayServicesRepairableException {
-        mMap = googleMap;
-        mMap.setInfoWindowAdapter(new PopupAdapter(getLayoutInflater()));
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            } else {
-                Location currentLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                LatLng currentLatLng = new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
-            }
-        }
         int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
@@ -125,8 +117,8 @@ public class CreateEventActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
+                eventPlace = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", eventPlace.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
             }
         }
@@ -181,6 +173,15 @@ public class CreateEventActivity extends FragmentActivity {
         JSONObject eventDetails = new JSONObject();
         Profile profile = Profile.getCurrentProfile();
         String facebookID = profile.getId();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String id  = prefs.getString(USER_ID, null);
+        if (id == null) {
+            // bad
+            Log.e(TAG, "don't have id?!?!");
+        }
+        if (eventPlace == null) {
+            Log.e(TAG, "don't have place?!?!");
+        }
 
         // get the details from entries and selections
         // title, description, category and time already populated
@@ -188,19 +189,23 @@ public class CreateEventActivity extends FragmentActivity {
         //String place_id = ;
 
         // populate eventDetails
+        LatLng latlng = eventPlace.getLatLng();
+
+        ArrayList<Double> geo = new ArrayList<>();
+        geo.add(latlng.longitude);
+        geo.add(latlng.latitude);
         try {
-            ArrayList<Integer> geo = new ArrayList<>();
-            geo.add(-79);
-            geo.add(40);
+
+
             eventDetails.put("title", title);
             eventDetails.put("description", description);
             //eventDetails.put("geo_loc", geo_loc);
             eventDetails.put("geo_loc", new JSONArray(geo));
             //eventDetails.put("place_id", place_id);
-            eventDetails.put("place_id", "64329874382");
+            eventDetails.put("place_id", eventPlace.getId());
             // eventDetails.put("time", time);
             eventDetails.put("time", new Date().getTime());
-            eventDetails.put("owner", Long.parseLong(facebookID));
+            eventDetails.put("owner", id);
             eventDetails.put("category", category);
             Log.d(TAG, eventDetails.toString());
         } catch (JSONException e) {

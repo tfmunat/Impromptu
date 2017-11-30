@@ -92,7 +92,8 @@ public class BasicProfileCompletionActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
-                ErrorDialog dialog = ErrorDialog.newInstance(error.getMessage());
+                error.printStackTrace();
+                ErrorDialog dialog = ErrorDialog.newInstance(error.toString());
                 dialog.show(getFragmentManager(), "SignupError");
             }
         }) {
