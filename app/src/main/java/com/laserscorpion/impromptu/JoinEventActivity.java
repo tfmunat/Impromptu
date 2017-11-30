@@ -7,6 +7,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -16,29 +19,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 public class JoinEventActivity extends FragmentActivity {
 
     private JoinEventActivity activity = this;
+    Collection<EventDetails> events;
     public String id;
-    public String owner;
-    public String ownerName;
-    public String description;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> e_title;
     public String title;
-    public String category;
-    public Place place;
-    public ArrayList<String> attendees;
     public Date time;
-    private String event_id, eventID, user_id;
+    public String event_id, eventID, user_id;
     private static final String TAG = "CreateEventActivity";
     private static final String USER_ID = "impromptu_user_id";
 
@@ -46,6 +44,36 @@ public class JoinEventActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_event);
+        e_title = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, R.layout.activity_join_event, e_title);
+        ListView list = (ListView)findViewById(R.id.event_list);
+        list.setAdapter(adapter);
+        final Button b = (Button) findViewById(R.id.see_info);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.performClick();
+            }
+        });
+    }
+
+    /* after auto perform click */
+    public void updateEventInfo(View v){
+        /*
+        events = Collection<EventDetails>
+        ArrayList<String> currentEvents = events;
+        for (String e : currentEvents) {
+            boolean alreadyInList = e_title.contains(e);
+            if (alreadyInList)
+                adapter.remove(e);
+        }
+        adapter.notifyDataSetChanged();
+
+        adapter.addAll(currentEvents);
+
+        adapter.notifyDataSetChanged();
+        e_title = currentEvents;
+        */
     }
 
     /* join when the button is clicked */

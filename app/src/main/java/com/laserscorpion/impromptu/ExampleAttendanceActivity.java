@@ -36,7 +36,7 @@ public class ExampleAttendanceActivity extends AppCompatActivity {
 
         people = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, R.layout.list_item, people);
-        ListView list = (ListView)findViewById(R.id.name_list);
+        ListView list = (ListView)findViewById(R.id.event_list);
         list.setAdapter(adapter);
     }
 
