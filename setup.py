@@ -7,7 +7,4 @@ setup(
 	install_requires=[
 		'flask',
 	],
-	version='0.0.1',
-	description='Python Package for Impromptu Social App\'s backend service',
-	url='https://github.com/tfmunat/Impromptu',
 )
