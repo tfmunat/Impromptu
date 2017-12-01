@@ -1,13 +1,10 @@
 package com.laserscorpion.impromptu;
 
 import android.content.Context;
-import android.location.Location;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.location.places.*;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
@@ -20,17 +17,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class EventSearcher {
-    private EventSearcher es = this;
+    //private EventSearcher es = this;
     private EventRequestReceiver listener;
     private Context context;
 
@@ -166,7 +159,7 @@ public class EventSearcher {
             while (true) {
                 try {
                     wait(10000);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {e.printStackTrace();}
             }
         }
 
@@ -174,7 +167,7 @@ public class EventSearcher {
             return responseCode > 400;
         }
 
-        private String readStream(InputStream stream) throws SocketTimeoutException, IOException {
+        private String readStream(InputStream stream) throws IOException {
             InputStreamReader streamReader = new InputStreamReader(stream, CHARSET);
             BufferedReader reader = new BufferedReader(streamReader);
             String result = "";

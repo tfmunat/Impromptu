@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,17 +22,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 public class JoinEventActivity extends FragmentActivity {
 
     private JoinEventActivity activity = this;
-    Collection<EventDetails> events;
+    //Collection<EventDetails> events;
     public String id;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> e_title;
+    //private ArrayAdapter<String> adapter;
+    //private ArrayList<String> e_title;
     public String title;
     public Date time;
     public String event_id, eventID, user_id;
@@ -44,10 +41,10 @@ public class JoinEventActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_event);
-        e_title = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, R.layout.activity_join_event, e_title);
-        ListView list = (ListView)findViewById(R.id.event_list);
-        list.setAdapter(adapter);
+        //e_title = new ArrayList<>();
+        //adapter = new ArrayAdapter<>(this, R.layout.activity_join_event, e_title);
+        //ListView list = (ListView)findViewById(R.id.event_list);
+        //list.setAdapter(adapter);
         final Button b = (Button) findViewById(R.id.see_info);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +95,7 @@ public class JoinEventActivity extends FragmentActivity {
                             JSONObject json = new JSONObject(response);
                             eventID = json.getString("id");
                             event_id = eventID;
-                            String toastMsg = String.format("Success!");
+                            String toastMsg = "Success!";
                             Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");

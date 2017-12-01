@@ -1,6 +1,6 @@
 package com.laserscorpion.impromptu;
 
-/***
+/*
  Copyright (c) 2012-2014 CommonsWare, LLC
  Licensed under the Apache License, Version 2.0 (the "License"); you may not
  use this file except in compliance with the License. You may obtain a copy
@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.Marker;
 
-class PopupAdapter implements InfoWindowAdapter {
+public class PopupAdapter implements InfoWindowAdapter {
     private View popup=null;
     private LayoutInflater inflater=null;
 

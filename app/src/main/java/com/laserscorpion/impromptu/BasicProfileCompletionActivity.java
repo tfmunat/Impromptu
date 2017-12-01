@@ -17,17 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.AccessToken;
 import com.facebook.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A screen shown after the user logs into Facebook that asks them for their interests.
@@ -72,7 +68,7 @@ public class BasicProfileCompletionActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "here's the response \n" + response);
-                        JSONObject json = null;
+                        JSONObject json;
                         try {
                             json = new JSONObject(response);
                             String id = json.getString("id");
@@ -102,8 +98,8 @@ public class BasicProfileCompletionActivity extends Activity {
             {
                 try {
                     String userString = userInfo.toString();
-                    byte[] bytes  = userString.getBytes("UTF-8");
-                    return bytes;
+                    //byte[] bytes  = userString.getBytes("UTF-8");
+                    return userString.getBytes("UTF-8");
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -123,7 +119,6 @@ public class BasicProfileCompletionActivity extends Activity {
 
     private JSONObject getUserDetails() {
         JSONObject userDetails = new JSONObject();
-        AccessToken token = AccessToken.getCurrentAccessToken();
         Profile profile = Profile.getCurrentProfile();
         String facebookID = profile.getId();
         String firstName = profile.getFirstName();

@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
-import com.laserscorpion.impromptu.R;
-
 
 public class ErrorDialog extends DialogFragment {
     private static final String MESSAGE_KEY = "message";

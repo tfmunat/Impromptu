@@ -5,15 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -22,7 +20,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,17 +36,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import android.Manifest;
-
 public class FindEventActivity extends FragmentActivity implements OnMapReadyCallback, EventRequestReceiver {
-    private static final int WIDTH_HEIGHT_RATIO = 2;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "FindEventActivity";
     private LocationManager locationManager;
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
     private EditText searchBox;
-    LatLng currentLatLng;
     View mapView;
     Context context = this;
 
@@ -118,7 +111,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 startActivity(intent);
             }
         });
-        //search();
+        search();
     }
 
     private float getWidth() {
@@ -127,9 +120,9 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         display.getMetrics(outMetrics);
 
         float density  = getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        float dpWidth  = outMetrics.widthPixels / density;
-        return dpWidth;
+        //float dpHeight = outMetrics.heightPixels / density;
+        // float dpWidth  = outMetrics.widthPixels / density;
+        return (outMetrics.widthPixels / density);
     }
 
     private ArrayList<String> getSearchTerms() {
@@ -187,7 +180,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
 
 
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[],@NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -209,7 +202,6 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                     ErrorDialog dialog = ErrorDialog.newInstance("Can't get current location. Grant access to location to see nearby events.");
                     dialog.show(getFragmentManager(), "Location Error");
                 }
-                return;
             }
             // other 'case' lines to check for other
             // permissions this app might request

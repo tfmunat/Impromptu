@@ -1,12 +1,9 @@
 package com.laserscorpion.impromptu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-//import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,9 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.lang.*;
 import java.util.ArrayList;
-import static com.laserscorpion.impromptu.FindEventActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class CreateEventActivity extends FragmentActivity {
     private CreateEventActivity activity = this;
@@ -132,7 +127,7 @@ public class CreateEventActivity extends FragmentActivity {
                             JSONObject json = new JSONObject(response);
                             eventID = json.getString("id");
                             eventIDsaved = eventID;
-                            String toastMsg = String.format("Success!");
+                            String toastMsg = "Success!";
                             Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");

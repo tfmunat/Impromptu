@@ -3,10 +3,6 @@ package com.laserscorpion.impromptu;
 import com.facebook.AccessToken;
 import com.facebook.Profile;
 
-/**
- * Created by joel on 11/9/17.
- */
-
 public class FacebookResourceLocator {
     private static AccessToken token;
     private static Profile profile;

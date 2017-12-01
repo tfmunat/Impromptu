@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">xxxxxxx</string>
-    <string name="fb_login_protocol_scheme">xxxxxxx</string>
-    <string name="app_secret_token">xxxxxxxx</string>
+    <string name="facebook_app_id">XXXXXXXXXX</string>
+    <string name="fb_login_protocol_scheme">XXXXXXXXXXX</string>
+    <string name="app_secret_token">XXXXXXXXXXX</string>
 </resources>
