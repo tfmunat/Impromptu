@@ -54,4 +54,3 @@ script:
   # Clean project and download missing dependencies and components
   - ./gradlew assembleDebug --stacktrace
   - ./gradlew test --continue
-  - py.test --cov=Impromptu Impromptu/Test 
