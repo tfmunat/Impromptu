@@ -66,6 +66,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
                     InputMethodManager manager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert manager != null;
                     manager.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
                     searchBox.clearFocus();
                     return true;

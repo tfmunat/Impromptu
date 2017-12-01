@@ -14,7 +14,6 @@
     <string name="example_interest3">e.g. soccer</string>
     <string name="example_interest4">e.g. meeting for coffee</string>
     <string name="example_interest5">e.g. video games</string>
-    <string name="submit">Submit</string>
     <string name="get_started">Get Started!</string>
     <string name="search">Search for an event by category</string>
     <string name="title">title</string>
@@ -23,9 +22,6 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="location">Location</string>
-    <string name="show_names">Show Names</string>
-    <string name="uni">UNI</string>
-    <string name="name">name</string>
     <string name="create_event_button">Create Event</string>
     <string name="join_event">Join Event</string>
     <string name="selected_event_info">Selected event info</string>

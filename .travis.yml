@@ -42,7 +42,6 @@ install:
   - echo yes | sdkmanager "extras;google;m2repository"
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
-  - pip install -r requirements.txt
   # Show version and download Gradle Wrapper if it's not already cached
   - ./gradlew --version
   # Check components status
