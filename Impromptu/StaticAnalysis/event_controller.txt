@@ -1,0 +1,200 @@
+************* Module Impromptu.Controllers.event_controller
+C: 28, 0: Wrong hanging indentation (add 4 spaces).
+            "geo_loc" : SON(
+            ^   | (bad-continuation)
+C: 29, 0: No space allowed before comma
+                [("$nearSphere" , [ longitude, latitude ]), ("$maxDistance", dist)]
+                                ^ (bad-whitespace)
+C: 29, 0: No space allowed after bracket
+                [("$nearSphere" , [ longitude, latitude ]), ("$maxDistance", dist)]
+                                  ^ (bad-whitespace)
+C: 29, 0: No space allowed before bracket
+                [("$nearSphere" , [ longitude, latitude ]), ("$maxDistance", dist)]
+                                                        ^ (bad-whitespace)
+C: 57, 0: Unnecessary parens after 'if' keyword (superfluous-parens)
+C: 76, 0: Wrong hanging indentation.
+             })
+            |^  | (bad-continuation)
+C: 80, 0: No space allowed after bracket
+                { "_id" : ObjectId(user_obj.get_owner()) },
+                ^ (bad-whitespace)
+C: 80, 0: No space allowed before bracket
+                { "_id" : ObjectId(user_obj.get_owner()) },
+                                                         ^ (bad-whitespace)
+C: 81, 0: No space allowed after bracket
+                { "$push" : { "events_attending" : str(docid) }}
+                ^ (bad-whitespace)
+C: 81, 0: No space allowed after bracket
+                { "$push" : { "events_attending" : str(docid) }}
+                            ^ (bad-whitespace)
+C: 81, 0: No space allowed before bracket
+                { "$push" : { "events_attending" : str(docid) }}
+                                                              ^ (bad-whitespace)
+C: 89, 0: Trailing whitespace (trailing-whitespace)
+C: 94, 0: Wrong hanging indentation (remove 4 spaces).
+                response=json.dumps({"message":"An issue with server."}),
+            |   ^ (bad-continuation)
+C: 95, 0: Wrong hanging indentation (remove 4 spaces).
+                status=500,
+            |   ^ (bad-continuation)
+C: 96, 0: Wrong hanging indentation (remove 4 spaces).
+                mimetype='application/json'
+            |   ^ (bad-continuation)
+C: 98, 0: Trailing whitespace (trailing-whitespace)
+C:108, 0: Trailing whitespace (trailing-whitespace)
+C:117, 0: Wrong hanging indentation (remove 4 spaces).
+                response=json.dumps({"message":"No nearby events found."}),
+            |   ^ (bad-continuation)
+C:118, 0: Wrong hanging indentation (remove 4 spaces).
+                status=400,
+            |   ^ (bad-continuation)
+C:119, 0: Wrong hanging indentation (remove 4 spaces).
+                mimetype='application/json'
+            |   ^ (bad-continuation)
+C:120, 0: Trailing whitespace (trailing-whitespace)
+C:128, 0: No space allowed before :
+    keywords_arr = list(map(lambda x : x.lower(), keywords.split(",")))
+                                     ^ (bad-whitespace)
+C:137, 0: Trailing whitespace (trailing-whitespace)
+C:146, 0: Wrong hanging indentation (remove 4 spaces).
+                response=json.dumps({"message":"No nearby events with specified keywords found."}),
+            |   ^ (bad-continuation)
+C:147, 0: Wrong hanging indentation (remove 4 spaces).
+                status=400,
+            |   ^ (bad-continuation)
+C:148, 0: Wrong hanging indentation (remove 4 spaces).
+                mimetype='application/json'
+            |   ^ (bad-continuation)
+C:149, 0: Trailing whitespace (trailing-whitespace)
+C:150, 0: Final newline missing (missing-final-newline)
+C:  1, 0: Missing module docstring (missing-docstring)
+C: 10, 0: Invalid function name "validateEvent" (invalid-name)
+C: 10, 0: Missing function docstring (missing-docstring)
+C: 24, 0: Invalid function name "searchEventsDist" (invalid-name)
+C: 24, 0: Missing function docstring (missing-docstring)
+W: 46,11: Catching too general exception Exception (broad-except)
+C: 46, 4: Invalid variable name "e" (invalid-name)
+C: 51, 0: Invalid function name "createEvent" (invalid-name)
+C: 51, 0: Missing function docstring (missing-docstring)
+W: 91,11: Catching too general exception Exception (broad-except)
+C: 56, 8: Invalid variable name "e" (invalid-name)
+C: 91, 4: Invalid variable name "e" (invalid-name)
+C:102, 0: Invalid function name "searchEvents" (invalid-name)
+C:102, 0: Missing function docstring (missing-docstring)
+C:124, 0: Invalid function name "searchEventsKeyword" (invalid-name)
+C:124, 0: Missing function docstring (missing-docstring)
+
+
+Report
+======
+76 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |1      |NC         |NC         |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |0      |NC         |NC         |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|method   |0      |NC         |NC         |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|function |5      |NC         |NC         |0.00        |100.00   |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+External dependencies
+---------------------
+::
+
+    Impromptu (Impromptu.Controllers.event_controller)
+      \-Controllers 
+      | \-user_controller (Impromptu.Controllers.event_controller)
+      \-Model 
+        \-event_model (Impromptu.Controllers.event_controller)
+    bson 
+      \-objectid (Impromptu.Controllers.event_controller)
+      \-son (Impromptu.Controllers.event_controller)
+    flask (Impromptu.Controllers.event_controller)
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |121    |79.61 |NC       |NC         |
++----------+-------+------+---------+-----------+
+|docstring |11     |7.24  |NC       |NC         |
++----------+-------+------+---------+-----------+
+|comment   |0      |0.00  |NC       |NC         |
++----------+-------+------+---------+-----------+
+|empty     |20     |13.16 |NC       |NC         |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |NC       |NC         |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |NC       |NC         |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |42     |NC       |NC         |
++-----------+-------+---------+-----------+
+|refactor   |0      |NC       |NC         |
++-----------+-------+---------+-----------+
+|warning    |2      |NC       |NC         |
++-----------+-------+---------+-----------+
+|error      |0      |NC       |NC         |
++-----------+-------+---------+-----------+
+
+
+
+Messages
+--------
+
++----------------------+------------+
+|message id            |occurrences |
++======================+============+
+|bad-continuation      |11          |
++----------------------+------------+
+|bad-whitespace        |9           |
++----------------------+------------+
+|invalid-name          |8           |
++----------------------+------------+
+|trailing-whitespace   |6           |
++----------------------+------------+
+|missing-docstring     |6           |
++----------------------+------------+
+|broad-except          |2           |
++----------------------+------------+
+|superfluous-parens    |1           |
++----------------------+------------+
+|missing-final-newline |1           |
++----------------------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 4.21/10
+

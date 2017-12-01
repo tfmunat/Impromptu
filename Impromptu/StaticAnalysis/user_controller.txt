@@ -1,0 +1,185 @@
+************* Module Impromptu.Controllers.user_controller
+C:  8, 0: Exactly one space required after comma
+@app.route("/", methods=['GET','POST'])
+                              ^ (bad-whitespace)
+C: 40, 0: Wrong hanging indentation.
+             })
+            |^  | (bad-continuation)
+C: 46, 0: Trailing whitespace (trailing-whitespace)
+C: 54, 0: Trailing whitespace (trailing-whitespace)
+W: 70, 0: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+W: 71, 0: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+W: 72, 0: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+W: 73, 0: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+W: 74, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+C: 75, 0: Wrong hanging indentation (remove 4 spaces).
+                    {"_id" : {"$in" : attendees_obj_ids} }
+                |   ^ (bad-continuation)
+C: 75, 0: No space allowed before bracket
+                    {"_id" : {"$in" : attendees_obj_ids} }
+                                                         ^ (bad-whitespace)
+W: 78, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+W: 79, 0: Bad indentation. Found 16 spaces, expected 12 (bad-indentation)
+W: 80, 0: Bad indentation. Found 16 spaces, expected 12 (bad-indentation)
+W: 81, 0: Bad indentation. Found 20 spaces, expected 16 (bad-indentation)
+W: 82, 0: Bad indentation. Found 16 spaces, expected 12 (bad-indentation)
+W: 83, 0: Bad indentation. Found 20 spaces, expected 16 (bad-indentation)
+W: 85, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+W: 87, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+W: 89, 0: Bad indentation. Found 8 spaces, expected 4 (bad-indentation)
+W: 90, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+W: 91, 0: Bad indentation. Found 12 spaces, expected 8 (bad-indentation)
+C:105, 0: Trailing whitespace (trailing-whitespace)
+C:109, 0: No space allowed before bracket
+            {"_id" : {"$in" : events} }
+                                      ^ (bad-whitespace)
+C:130, 0: Trailing whitespace (trailing-whitespace)
+C:134, 0: Wrong hanging indentation (remove 4 spaces).
+                response=json.dumps({"message":"An issue with server."}),
+            |   ^ (bad-continuation)
+C:135, 0: Wrong hanging indentation (remove 4 spaces).
+                status=500,
+            |   ^ (bad-continuation)
+C:136, 0: Wrong hanging indentation (remove 4 spaces).
+                mimetype='application/json'
+            |   ^ (bad-continuation)
+C:138, 0: Final newline missing (missing-final-newline)
+C:  1, 0: Missing module docstring (missing-docstring)
+C:  9, 0: Missing function docstring (missing-docstring)
+C: 19, 0: Invalid function name "signUp" (invalid-name)
+C: 19, 0: Missing function docstring (missing-docstring)
+W: 47,15: Catching too general exception Exception (broad-except)
+C: 47, 8: Invalid variable name "e" (invalid-name)
+C: 57, 0: Invalid function name "validateUser" (invalid-name)
+C: 57, 0: Missing function docstring (missing-docstring)
+C: 69, 0: Invalid function name "getUserDetails" (invalid-name)
+C: 69, 0: Missing function docstring (missing-docstring)
+W: 89,15: Catching too general exception Exception (broad-except)
+C: 89, 8: Invalid variable name "e" (invalid-name)
+C: 94, 0: Invalid function name "fetchEvents" (invalid-name)
+C: 94, 0: Missing function docstring (missing-docstring)
+W:131,11: Catching too general exception Exception (broad-except)
+C:131, 4: Invalid variable name "e" (invalid-name)
+W:  2, 0: Unused render_template imported from flask (unused-import)
+W:  2, 0: Unused jsonify imported from flask (unused-import)
+C:  3, 0: standard import "import json" comes before "from Impromptu import app, mongo_mlab" (wrong-import-order)
+C:  5, 0: standard import "import re" comes before "from Impromptu import app, mongo_mlab" (wrong-import-order)
+C:  4, 0: Imports from package Impromptu are not grouped (ungrouped-imports)
+
+
+Report
+======
+76 statements analysed.
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |1      |1          |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|method   |0      |0          |=          |0           |0        |
++---------+-------+-----------+-----------+------------+---------+
+|function |5      |4          |+1.00      |0.00        |80.00    |
++---------+-------+-----------+-----------+------------+---------+
+
+
+
+External dependencies
+---------------------
+::
+
+    Impromptu (Impromptu.Controllers.user_controller)
+      \-Model 
+        \-user_model (Impromptu.Controllers.user_controller)
+    bson 
+      \-objectid (Impromptu.Controllers.user_controller)
+    flask (Impromptu.Controllers.user_controller)
+
+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |114    |81.43 |99       |+15.00     |
++----------+-------+------+---------+-----------+
+|docstring |6      |4.29  |6        |=          |
++----------+-------+------+---------+-----------+
+|comment   |2      |1.43  |2        |=          |
++----------+-------+------+---------+-----------+
+|empty     |18     |12.86 |16       |+2.00      |
++----------+-------+------+---------+-----------+
+
+
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |0     |0        |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |0.000 |0.000    |=          |
++-------------------------+------+---------+-----------+
+
+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |29     |27       |+2.00      |
++-----------+-------+---------+-----------+
+|refactor   |0      |0        |=          |
++-----------+-------+---------+-----------+
+|warning    |21     |17       |+4.00      |
++-----------+-------+---------+-----------+
+|error      |0      |0        |=          |
++-----------+-------+---------+-----------+
+
+
+
+Messages
+--------
+
++----------------------+------------+
+|message id            |occurrences |
++======================+============+
+|bad-indentation       |16          |
++----------------------+------------+
+|invalid-name          |7           |
++----------------------+------------+
+|missing-docstring     |6           |
++----------------------+------------+
+|bad-continuation      |5           |
++----------------------+------------+
+|trailing-whitespace   |4           |
++----------------------+------------+
+|broad-except          |3           |
++----------------------+------------+
+|bad-whitespace        |3           |
++----------------------+------------+
+|wrong-import-order    |2           |
++----------------------+------------+
+|unused-import         |2           |
++----------------------+------------+
+|ungrouped-imports     |1           |
++----------------------+------------+
+|missing-final-newline |1           |
++----------------------+------------+
+
+
+
+Global evaluation
+-----------------
+Your code has been rated at 3.42/10 (previous run: 3.43/10, -0.01)
+
