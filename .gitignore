@@ -63,6 +63,7 @@ freeline_project_description.json
 __pycache__/
 Impromptu.egg-info/
 
+.coverage
 .pyc
 .cache
 *.pyc
