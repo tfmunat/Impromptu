@@ -33,13 +33,10 @@ before_script:
   - chmod +x gradlew
 
 before_install:
-  - sudo apt-get -y install python3-pip python-dev
+  - sudo apt-get -y install python3-pip python-dev python-pytest
+  - sudo pip install pytest-cov
 
 install:
-  - echo yes | sdkmanager "tools"
-  - echo yes | sdkmanager "platforms;android-25" # Latest platform required by SDK tools
-  - echo yes | sdkmanager "extras;android;m2repository"
-  - echo yes | sdkmanager "extras;google;m2repository"
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
   # Show version and download Gradle Wrapper if it's not already cached
