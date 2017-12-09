@@ -45,7 +45,7 @@ public class LaunchAppRoutingTest {
         prefs.edit().clear().commit();
     }
 
-    @Test
+    /*@Test
     public void notLoggedInLaunchesFacebookLogin() {
 
         Instrumentation.ActivityMonitor activityMonitor = getInstrumentation().addMonitor(FacebookSignupActivity.class.getName(), null, false);
@@ -55,7 +55,7 @@ public class LaunchAppRoutingTest {
         assertNotNull(nextActivity);
         assertEquals(nextActivity.getClass(), FacebookSignupActivity.class);
         nextActivity.finish();
-    }
+    }*/
 
     @Test
     public void loggedInLaunchesFindEvent() {

@@ -145,7 +145,8 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         double meters_per_pixel = 156543.03392 * Math.cos(mapPos.latitude * Math.PI / 180) / Math.pow(2, zoom); // https://stackoverflow.com/questions/9356724/google-map-api-zoom-range
         double meters = meters_per_pixel * width;
 
-        EventSearcher searcher = new EventSearcher(this, this);
+        String searchURL = getString(R.string.server_base_url) + context.getString(R.string.search_url);
+        EventSearcher searcher = new EventSearcher(this, searchURL);
         searcher.search(mapPos, (int)meters, keywords);
     }
 

@@ -42,6 +42,7 @@ public class CreateEventActivity extends FragmentActivity {
     private String eventIDsaved;
     TimePickerFragment tFragment;
     DatePickerFragment dFragment;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,11 @@ public class CreateEventActivity extends FragmentActivity {
         tFragment = new TimePickerFragment();
         dFragment = new DatePickerFragment();
 
+        url = getString(R.string.server_base_url) + getString(R.string.create_url);
+    }
 
+    public void setURL(String url) {
+        this.url = url;
     }
 
     /**
@@ -115,7 +120,7 @@ public class CreateEventActivity extends FragmentActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = getString(R.string.server_base_url) + getString(R.string.create_url);
+
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -131,7 +136,7 @@ public class CreateEventActivity extends FragmentActivity {
                             Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");
-                            dialog.show(getFragmentManager(), "CreateError");
+                            dialog.show(getFragmentManager(), "CreateError1");
                             e.printStackTrace();
                         }
                         activity.finish();
@@ -141,7 +146,7 @@ public class CreateEventActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.toString());
                 ErrorDialog dialog = ErrorDialog.newInstance(error.toString());
-                dialog.show(getFragmentManager(), "CreateError");
+                dialog.show(getFragmentManager(), "CreateError2");
             }
         }) {
             @Override
@@ -173,13 +178,13 @@ public class CreateEventActivity extends FragmentActivity {
         if (id == null) {
             // bad
             ErrorDialog dialog = ErrorDialog.newInstance("Missing user ID, can't create event");
-            dialog.show(getFragmentManager(), "CreateError");
+            dialog.show(getFragmentManager(), "CreateError4");
             Log.e(TAG, "don't have id?!?!");
             return null;
         }
         if (eventPlace == null) {
             ErrorDialog dialog = ErrorDialog.newInstance("Must select place, can't create event");
-            dialog.show(getFragmentManager(), "CreateError");
+            dialog.show(getFragmentManager(), "CreateError5");
             Log.e(TAG, "don't have place?!?!");
             return null;
         }
