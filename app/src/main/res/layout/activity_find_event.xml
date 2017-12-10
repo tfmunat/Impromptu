@@ -42,6 +42,15 @@
         android:layout_margin="15dp"
         android:src="@drawable/ic_add_white_24dp"
         ></android.support.design.widget.FloatingActionButton>
+
+    <CheckBox
+        android:id="@+id/map_interest_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/search_box"
+        android:layout_below="@+id/search_box"
+        android:text="@string/map_interest_checkbox"
+        android:textSize="18sp" />
     <!-- Button
         android:id="@+id/search_button"
         android:layout_width="wrap_content"

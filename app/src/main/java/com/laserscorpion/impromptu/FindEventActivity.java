@@ -3,10 +3,12 @@ package com.laserscorpion.impromptu;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +21,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,6 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -39,6 +44,7 @@ import java.util.StringTokenizer;
 public class FindEventActivity extends FragmentActivity implements OnMapReadyCallback, EventRequestReceiver {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "FindEventActivity";
+    private static final String INTERESTS = "my_interests";
     private LocationManager locationManager;
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
@@ -57,8 +63,29 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         nearbyEvents = new HashSet<>();
-        searchBox = (EditText) findViewById(R.id.search_box);
+        searchBox = findViewById(R.id.search_box);
+        CheckBox map_interest_checkbox = findViewById(R.id.map_interest_checkbox);
         mapView = findViewById(R.id.map);
+
+        map_interest_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                if (isChecked){
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    String interest_list  = prefs.getString(INTERESTS, null);
+                    if (interest_list == null) {
+                        // bad
+                        ErrorDialog dialog = ErrorDialog.newInstance("Can't find interests; try reentering");
+                        dialog.show(getFragmentManager(), "Search Error");
+                        Log.e(TAG, "don't have interests?!?!");
+                    } else {
+                        Log.d(TAG, interest_list);
+                        String[] user_interests = interest_list.split(",");
+                        search_interests(user_interests);
+                    }
+                }
+            }
+        });
 
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener(){
             @Override
@@ -75,7 +102,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-        FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.myFAB);
+        FloatingActionButton myFab = findViewById(R.id.myFAB);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateEventActivity.class);
@@ -139,6 +166,31 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private void search() {
         ArrayList<String> keywords = getSearchTerms();
 
+        float width = getWidth();
+        float zoom = mMap.getCameraPosition().zoom;
+        LatLng mapPos = mMap.getCameraPosition().target;
+        double meters_per_pixel = 156543.03392 * Math.cos(mapPos.latitude * Math.PI / 180) / Math.pow(2, zoom); // https://stackoverflow.com/questions/9356724/google-map-api-zoom-range
+        double meters = meters_per_pixel * width;
+
+        String searchURL = getString(R.string.server_base_url) + context.getString(R.string.search_url);
+        EventSearcher searcher = new EventSearcher(this, searchURL);
+        searcher.search(mapPos, (int)meters, keywords);
+    }
+
+    private ArrayList<String> getInterestSearchTerms(String[] user_interests) {
+        ArrayList<String> result = new ArrayList<>();
+        //Collections.addAll(result, user_interests);
+        for (String s : user_interests) {
+            StringTokenizer tokenizer = new StringTokenizer(s);
+            while (tokenizer.hasMoreTokens()) {
+                result.add(tokenizer.nextToken());
+            }
+        }
+        return result;
+    }
+
+    private void search_interests(String[] user_interests){
+        ArrayList<String> keywords = getInterestSearchTerms(user_interests);
         float width = getWidth();
         float zoom = mMap.getCameraPosition().zoom;
         LatLng mapPos = mMap.getCameraPosition().target;

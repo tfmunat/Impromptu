@@ -34,6 +34,7 @@ public class BasicProfileCompletionActivity extends Activity {
     private static final int NUM_LIKES = 5;
     private static final String TAG = "BasicProfileCompletion";
     private static final String USER_ID = "impromptu_user_id";
+    private static final String INTERESTS = "my_interests";
 
 
     @Override
@@ -124,13 +125,28 @@ public class BasicProfileCompletionActivity extends Activity {
         String firstName = profile.getFirstName();
         String lastName = profile.getLastName();
         ArrayList<String> interests = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
         for (int i = 1; i <= NUM_LIKES; i++) {
             int resId = getResources().getIdentifier("interest" + i, "id", getPackageName());
-            EditText textfield = (EditText)findViewById(resId);
+            EditText textfield = findViewById(resId);
             CharSequence interest = textfield.getText();
-            if (interest.length() > 0)
+            if (interest.length() > 0) {
                 interests.add(interest.toString());
+            }
         }
+
+        // save all the interests to sb as a String for later usage
+        String prefix = "";
+        for(String s: interests) {
+            sb.append(prefix);
+            prefix = ",";
+            sb.append(s);
+        }
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(INTERESTS, sb.toString());
+        editor.apply();
 
         try {
             userDetails.put("first_name", firstName);
