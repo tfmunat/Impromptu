@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,18 +26,16 @@ public class EventSearcher {
     //private EventSearcher es = this;
     private EventRequestReceiver listener;
     private Context context;
-    private String baseURL;
 
-    public EventSearcher(EventRequestReceiver parent, String serverBaseURL) {
+    public EventSearcher(EventRequestReceiver parent, Context context) {
         listener = parent;
-        //this.context = context;
-        this.baseURL = serverBaseURL;
+        this.context = context;
     }
 
 
 
     public void search(LatLng location, int meters, Collection<String> keywords) {
-        //String baseURL = context.getString(R.string.server_base_url) + context.getString(R.string.search_url);
+        String baseURL = context.getString(R.string.server_base_url) + context.getString(R.string.search_url);
         String requestURL = baseURL + '/' + location.longitude + '/' + location.latitude + '/' + meters;
         if (keywords.size() > 0)
             requestURL += '/';
@@ -72,25 +69,20 @@ public class EventSearcher {
 
         public void run() {
             try {
-                //Log.d(TAG, "Requesting " + url);
+                Log.d(TAG, "Requesting " + url);
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-                try {
-                    int responseCode = connection.getResponseCode();
-                    //Log.d(TAG, "Received " + responseCode);
-                    if (errorCode(responseCode)) {
-                        listener.onRequestFailed("Received error " + responseCode);
-                        return;
-                    }
-                    if (responseCode == 400) {
-                        listener.onRequestFailed("No results found for that search");
-                        return;
-                    }
-                } catch (UnknownHostException e) {
-                    listener.onRequestFailed("Can't connect to server URL -- domain not found");
+                int responseCode = connection.getResponseCode();
+                Log.d(TAG, "Received " + responseCode);
+                if (errorCode(responseCode)) {
+                    listener.onRequestFailed("Received error " + responseCode);
+                    return;
+                }
+                if (responseCode == 400) {
+                    listener.onRequestFailed("No results found for that search");
                     return;
                 }
                 String body = readStream(connection.getInputStream());
-                //Log.d(TAG, "Received body: " + body);
+                Log.d(TAG, "Received body: " + body);
                 ArrayList<EventDetails> events = parseEvents(body);
                 listener.onEventsReceived(events);
                 //connection.setRequestMethod("GET");
@@ -161,6 +153,15 @@ public class EventSearcher {
             return result;
         }
 
+
+
+        private synchronized void waitUninteruptibly() {
+            while (true) {
+                try {
+                    wait(10000);
+                } catch (InterruptedException e) {e.printStackTrace();}
+            }
+        }
 
         private boolean errorCode(int responseCode) {
             return responseCode > 400;

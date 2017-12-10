@@ -36,7 +36,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -64,8 +63,8 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         nearbyEvents = new HashSet<>();
         searchBox = findViewById(R.id.search_box);
-        CheckBox map_interest_checkbox = findViewById(R.id.map_interest_checkbox);
         mapView = findViewById(R.id.map);
+        CheckBox map_interest_checkbox = findViewById(R.id.map_interest_checkbox);
 
         map_interest_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
@@ -153,6 +152,30 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         return (outMetrics.widthPixels / density);
     }
 
+    private ArrayList<String> getInterestSearchTerms(String[] user_interests) {
+        ArrayList<String> result = new ArrayList<>();
+        for (String s : user_interests) {
+            StringTokenizer tokenizer = new StringTokenizer(s);
+            while (tokenizer.hasMoreTokens()) {
+                result.add(tokenizer.nextToken());
+            }
+        }
+        return result;
+    }
+
+    private void search_interests(String[] user_interests){
+        ArrayList<String> keywords = getInterestSearchTerms(user_interests);
+
+        float width = getWidth();
+        float zoom = mMap.getCameraPosition().zoom;
+        LatLng mapPos = mMap.getCameraPosition().target;
+        double meters_per_pixel = 156543.03392 * Math.cos(mapPos.latitude * Math.PI / 180) / Math.pow(2, zoom); // https://stackoverflow.com/questions/9356724/google-map-api-zoom-range
+        double meters = meters_per_pixel * width;
+
+        EventSearcher searcher = new EventSearcher(this, this);
+        searcher.search(mapPos, (int)meters, keywords);
+    }
+
     private ArrayList<String> getSearchTerms() {
         ArrayList<String> result = new ArrayList<>();
         String keywords = searchBox.getText().toString();
@@ -172,33 +195,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         double meters_per_pixel = 156543.03392 * Math.cos(mapPos.latitude * Math.PI / 180) / Math.pow(2, zoom); // https://stackoverflow.com/questions/9356724/google-map-api-zoom-range
         double meters = meters_per_pixel * width;
 
-        String searchURL = getString(R.string.server_base_url) + context.getString(R.string.search_url);
-        EventSearcher searcher = new EventSearcher(this, searchURL);
-        searcher.search(mapPos, (int)meters, keywords);
-    }
-
-    private ArrayList<String> getInterestSearchTerms(String[] user_interests) {
-        ArrayList<String> result = new ArrayList<>();
-        //Collections.addAll(result, user_interests);
-        for (String s : user_interests) {
-            StringTokenizer tokenizer = new StringTokenizer(s);
-            while (tokenizer.hasMoreTokens()) {
-                result.add(tokenizer.nextToken());
-            }
-        }
-        return result;
-    }
-
-    private void search_interests(String[] user_interests){
-        ArrayList<String> keywords = getInterestSearchTerms(user_interests);
-        float width = getWidth();
-        float zoom = mMap.getCameraPosition().zoom;
-        LatLng mapPos = mMap.getCameraPosition().target;
-        double meters_per_pixel = 156543.03392 * Math.cos(mapPos.latitude * Math.PI / 180) / Math.pow(2, zoom); // https://stackoverflow.com/questions/9356724/google-map-api-zoom-range
-        double meters = meters_per_pixel * width;
-
-        String searchURL = getString(R.string.server_base_url) + context.getString(R.string.search_url);
-        EventSearcher searcher = new EventSearcher(this, searchURL);
+        EventSearcher searcher = new EventSearcher(this, this);
         searcher.search(mapPos, (int)meters, keywords);
     }
 
