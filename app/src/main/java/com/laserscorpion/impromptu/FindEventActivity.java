@@ -47,12 +47,9 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private LocationManager locationManager;
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
-    private Set<MarkerOptions> eventMarkers;
     private EditText searchBox;
     View mapView;
     Context context = this;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +146,6 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         display.getMetrics(outMetrics);
 
         float density  = getResources().getDisplayMetrics().density;
-        //float dpHeight = outMetrics.heightPixels / density;
-        // float dpWidth  = outMetrics.widthPixels / density;
         return (outMetrics.widthPixels / density);
     }
 
@@ -263,8 +258,6 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                     dialog.show(getFragmentManager(), "Location Error");
                 }
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 }
