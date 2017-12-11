@@ -47,9 +47,11 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private LocationManager locationManager;
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
+    private Set<MarkerOptions> eventMarkers;
     private EditText searchBox;
     View mapView;
     Context context = this;
+
 
 
     @Override
@@ -201,7 +203,14 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
 
     public void onEventsReceived(Collection<EventDetails> events) {
         Log.d(TAG, "Received " + events.size() + " events");
+        runOnUiThread(new Runnable() {
+            public void run() {
+                mMap.clear();
+            }
+        });
+        nearbyEvents.clear();
         nearbyEvents.addAll(events);
+
         for (EventDetails event : nearbyEvents) {
             LatLng latlng = event.place.getLatLng();
             final MarkerOptions marker = new MarkerOptions();
