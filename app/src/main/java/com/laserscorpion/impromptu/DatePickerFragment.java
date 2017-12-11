@@ -28,12 +28,14 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public long getSeconds() {
-        Log.d("datepicker", realDate.toString());
+//        Log.d("datepicker ", realDate.toString());
+//        Log.d("datepicker ", Long.toString(realDate.getTime()));
         return realDate.getTime();
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        realDate = new Date(year, month, day);
+//        Log.d("datepicker ", "year: " + year);
+        realDate = new Date(year - 1900, month, day);
     }
 }

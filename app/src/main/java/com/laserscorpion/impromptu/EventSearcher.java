@@ -141,11 +141,6 @@ public class EventSearcher {
                     event.attendees.add(name);
                 }
 
-                /*JSONObject geo_loc = obj.getJSONObject("geo_loc");
-                JSONArray coords = geo_loc.getJSONArray("coordinates");
-                double latitude = coords.getDouble(0);
-                double longitude = coords.getDouble(1);*/
-
                 event.time = new Date(obj.getLong("time"));
 
                 result.add(event);

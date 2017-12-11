@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -28,8 +29,12 @@ public class TimePickerFragment extends DialogFragment
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-    public int getSeconds() {
-        return (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+    public long getSeconds() {
+        long milliseconds = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+        /*Log.d("timepicker ", "hour " + hours);
+        Log.d("timepicker ", "minutes " + minutes);
+        Log.d("timepicker ", "ms " + milliseconds);*/
+        return milliseconds;
 
     }
 
