@@ -60,14 +60,16 @@ public class JoinEventActivity extends FragmentActivity {
         TextView titleView = (TextView)findViewById(R.id.event_title);
         TextView timeView = (TextView)findViewById(R.id.event_time);
         TextView ownerView = (TextView)findViewById(R.id.event_host);
+        TextView descView = (TextView)findViewById(R.id.event_description);
         TextView locationView = (TextView)findViewById(R.id.event_venue);
         TextView attendeeView = (TextView)findViewById(R.id.attendee_list);
 
-        titleView.setText(title);
-        timeView.setText(time);
-        ownerView.setText(host);
-        locationView.setText(venue);
-        String attendeeList = new String();
+        titleView.setText("Event: " + title);
+        timeView.setText("Time: " + time);
+        ownerView.setText("Host: " + host);
+        descView.setText("Description: " + description);
+        locationView.setText("Location: " + venue);
+        String attendeeList = "Attendees: ";
         for (String s : attendees) {
             attendeeList += s + ", ";
         };
