@@ -20,4 +20,8 @@ public class EventDetails implements Serializable {
     public ArrayList<String> attendees;
     public Date time;
 
+    @Override
+    public String toString() {
+        return title + '\n' + time;
+    }
 }

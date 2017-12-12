@@ -38,6 +38,7 @@ public class UserProfile extends ListActivity {
     private ArrayList<EventDetails> events;
     private static final String TAG = "UserProfile";
     private static final String USER_ID = "impromptu_user_id";
+    private ArrayAdapter<EventDetails> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +48,19 @@ public class UserProfile extends ListActivity {
         context = this;
         events = new ArrayList<>();
 
-        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_user_profile, events);
+        adapter = new ArrayAdapter(this, R.layout.list_item_2, events);
         setListAdapter(adapter);
 
         //final Button b = (Button) findViewById(R.id.user_profile_button);
         //b.performClick();
     }
 
-    /* join when the button is clicked */
-    public void showUserInfo(View v){
+    public void onResume() {
+        super.onResume();
+        showUserInfo();
+    }
+
+    public void showUserInfo(){
         JSONObject userID = getUserID();
         retrieveUserDetails(userID);
     }
@@ -83,7 +88,8 @@ public class UserProfile extends ListActivity {
     }
 
     private void displayEvents() {
-
+        adapter.addAll(events);
+        adapter.notifyDataSetChanged();
     }
 
     private void retrieveUserDetails(final JSONObject userDetails){
