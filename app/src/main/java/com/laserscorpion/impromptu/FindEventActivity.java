@@ -113,6 +113,16 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 startActivity(intent);
             }
         });
+        /*
+        FloatingActionButton myFab2 = findViewById(R.id.myFAB2);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserProfile.class);
+                startActivity(intent);
+            }
+        });
+        */
+
     }
 
 
