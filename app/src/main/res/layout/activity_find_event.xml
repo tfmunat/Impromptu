@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/map_interest_checkbox"
         android:layout_alignTop="@+id/myFAB"
-        android:src="@drawable/ic_account_circle_black_24dp"></android.support.design.widget.FloatingActionButton>
+        android:src="@drawable/ic_account_circle_white_24dp"></android.support.design.widget.FloatingActionButton>
 
     <CheckBox
         android:id="@+id/map_interest_checkbox"
