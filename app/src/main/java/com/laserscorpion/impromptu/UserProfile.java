@@ -50,9 +50,6 @@ public class UserProfile extends ListActivity {
 
         adapter = new ArrayAdapter(this, R.layout.list_item_2, events);
         setListAdapter(adapter);
-
-        //final Button b = (Button) findViewById(R.id.user_profile_button);
-        //b.performClick();
     }
 
     public void onResume() {
@@ -106,14 +103,11 @@ public class UserProfile extends ListActivity {
                         try {
                             events = EventParser.parseEvents(context, response);
                             displayEvents();
-                            //String toastMsg = "Success!";
-                            //Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");
                             dialog.show(getFragmentManager(), "ViewProfileError");
                             e.printStackTrace();
                         }
-                        //activity.finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
