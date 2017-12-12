@@ -33,7 +33,7 @@ public class JoinEventActivity extends FragmentActivity {
     public String id;
     //private ArrayAdapter<String> adapter;
     //private ArrayList<String> e_title;
-    public String event_id, eventID, user_id;
+    public String user_id;
     private String time;
     private String host;
     private ArrayList<String> attendees;
@@ -41,6 +41,7 @@ public class JoinEventActivity extends FragmentActivity {
     private String description;
     private String category;
     private String venue;
+    private String eventID;
     private static final String TAG = "CreateEventActivity";
     private static final String USER_ID = "impromptu_user_id";
 
@@ -56,6 +57,7 @@ public class JoinEventActivity extends FragmentActivity {
         description = creationIntent.getStringExtra("event_description");
         category = creationIntent.getStringExtra("event_category");
         venue = creationIntent.getStringExtra("event_venue");
+        eventID = creationIntent.getStringExtra("event_id");
 
         TextView titleView = (TextView)findViewById(R.id.event_title);
         TextView timeView = (TextView)findViewById(R.id.event_time);
@@ -128,8 +130,8 @@ public class JoinEventActivity extends FragmentActivity {
                         Log.d(TAG, "cool, here's the response \n" + response);
                         try {
                             JSONObject json = new JSONObject(response);
-                            eventID = json.getString("id");
-                            event_id = eventID;
+                            //eventID = json.getString("id");
+                            //event_id = eventID;
                             String toastMsg = "Success!";
                             Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
@@ -183,7 +185,7 @@ public class JoinEventActivity extends FragmentActivity {
 
         // populate eventDetails
         try {
-            eventDetails.put("event_id", event_id);
+            eventDetails.put("event_id", eventID);
             eventDetails.put("user_id", user_id);
             Log.d(TAG, eventDetails.toString());
         } catch (JSONException e) {
