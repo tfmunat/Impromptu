@@ -1,5 +1,6 @@
 package com.laserscorpion.impromptu;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +9,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +23,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserProfile extends FragmentActivity {
+public class UserProfile extends ListActivity {
     private com.laserscorpion.impromptu.UserProfile activity = this;
     public String id;
     public String user_id;
     private EventRequestReceiver listener;
     private Context context;
+    private ArrayList<EventDetails> events;
     private static final String TAG = "UserProfile";
     private static final String USER_ID = "impromptu_user_id";
 
@@ -39,8 +44,14 @@ public class UserProfile extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        final Button b = (Button) findViewById(R.id.user_profile_button);
-        b.performClick();
+        context = this;
+        events = new ArrayList<>();
+
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_user_profile, events);
+        setListAdapter(adapter);
+
+        //final Button b = (Button) findViewById(R.id.user_profile_button);
+        //b.performClick();
     }
 
     /* join when the button is clicked */
@@ -71,29 +82,32 @@ public class UserProfile extends FragmentActivity {
         return userDetails;
     }
 
+    private void displayEvents() {
+
+    }
+
     private void retrieveUserDetails(final JSONObject userDetails){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = getString(R.string.server_base_url) + getString(R.string.get_user_url) + user_id;
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, "cool, here's the response \n" + response);
                         try {
-                            JSONObject json = new JSONObject(response);
-                            //eventID = json.getString("id");
-                            //event_id = eventID;
-                            String toastMsg = "Success!";
-                            Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
+                            events = EventParser.parseEvents(context, response);
+                            displayEvents();
+                            //String toastMsg = "Success!";
+                            //Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             ErrorDialog dialog = ErrorDialog.newInstance("Bad JSON received from server, can't create event");
                             dialog.show(getFragmentManager(), "ViewProfileError");
                             e.printStackTrace();
                         }
-                        activity.finish();
+                        //activity.finish();
                     }
                 }, new Response.ErrorListener() {
             @Override

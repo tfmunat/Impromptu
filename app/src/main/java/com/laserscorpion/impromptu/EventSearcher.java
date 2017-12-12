@@ -83,7 +83,7 @@ public class EventSearcher {
                 }
                 String body = readStream(connection.getInputStream());
                 Log.d(TAG, "Received body: " + body);
-                ArrayList<EventDetails> events = parseEvents(body);
+                ArrayList<EventDetails> events = EventParser.parseEvents(context, body);
                 listener.onEventsReceived(events);
                 //connection.setRequestMethod("GET");
             } catch (MalformedURLException e) {
@@ -99,7 +99,7 @@ public class EventSearcher {
             }
         }
 
-        private ArrayList<EventDetails> parseEvents(String response) throws JSONException {
+        /*private ArrayList<EventDetails> parseEvents(String response) throws JSONException {
             ArrayList<EventDetails> result = new ArrayList<>();
             JSONArray json = new JSONArray(response);
             for (int i = 0; i < json.length(); i++) {
@@ -145,7 +145,7 @@ public class EventSearcher {
                 result.add(event);
             }
             return result;
-        }
+        }*/
 
 
 
