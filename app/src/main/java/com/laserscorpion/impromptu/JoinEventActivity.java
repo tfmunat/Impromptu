@@ -24,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class JoinEventActivity extends FragmentActivity {
 
@@ -74,40 +73,8 @@ public class JoinEventActivity extends FragmentActivity {
         String attendeeList = "Attendees: ";
         for (String s : attendees) {
             attendeeList += s + ", ";
-        };
-        attendeeView.setText(attendeeList);
-
-
-        //e_title = new ArrayList<>();
-        //adapter = new ArrayAdapter<>(this, R.layout.activity_join_event, e_title);
-        //ListView list = (ListView)findViewById(R.id.event_list);
-        //list.setAdapter(adapter);
-        final Button b = (Button) findViewById(R.id.see_info);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                b.performClick();
-            }
-        });
-    }
-
-    /* after auto perform click */
-    public void updateEventInfo(View v){
-        /*
-        events = Collection<EventDetails>
-        ArrayList<String> currentEvents = events;
-        for (String e : currentEvents) {
-            boolean alreadyInList = e_title.contains(e);
-            if (alreadyInList)
-                adapter.remove(e);
         }
-        adapter.notifyDataSetChanged();
-
-        adapter.addAll(currentEvents);
-
-        adapter.notifyDataSetChanged();
-        e_title = currentEvents;
-        */
+        attendeeView.setText(attendeeList);
     }
 
     /* join when the button is clicked */

@@ -63,19 +63,6 @@
         android:layout_below="@+id/event_description"/>
 
     <Button
-        android:id="@+id/see_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/attendee_list"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
-        android:onClick="updateEventInfo"
-        android:text="@string/selected_event_info"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="347dp" />
-
-    <Button
         android:id="@+id/join_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

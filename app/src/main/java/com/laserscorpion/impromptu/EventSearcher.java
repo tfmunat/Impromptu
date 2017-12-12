@@ -97,7 +97,6 @@ public class EventSearcher {
                 listener.onRequestFailed("Bad json received");
                 e.printStackTrace();
             }
-
         }
 
         private ArrayList<EventDetails> parseEvents(String response) throws JSONException {

@@ -5,4 +5,5 @@
     <string name="search_url">/search</string>
     <string name="create_url">/eventadd</string>
     <string name="join_url">/notify</string>
+    <string name="get_user_url">/view/</string>
 </resources>

@@ -98,6 +98,11 @@
             android:label="@string/title_activity_join_event">
         </activity>
 
+        <activity
+            android:name=".UserProfile"
+            android:label="@string/user_profile">
+        </activity>
+
         <activity android:name=".LaunchAppRoutingActivity">
         </activity>
         
