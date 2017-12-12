@@ -81,6 +81,8 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                         String[] user_interests = interest_list.split(",");
                         search_interests(user_interests);
                     }
+                } else {
+                    search();
                 }
             }
         });

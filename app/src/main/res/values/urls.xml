@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="server_base_url">http://34f72b36.ngrok.io</string>
+    <string name="server_base_url">http://af5916c5.ngrok.io</string>
     <string name="sign_up_new_user_url">/signup</string>
     <string name="search_url">/search</string>
     <string name="create_url">/eventadd</string>
