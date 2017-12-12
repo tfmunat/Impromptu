@@ -158,6 +158,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                 intent.putExtra("event_description", details.description);
                 intent.putExtra("event_category", details.category);
                 intent.putExtra("event_venue", details.place.getName());
+                intent.putExtra("event_id", details.id);
                 startActivity(intent);
             }
         });
