@@ -36,7 +36,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -47,6 +49,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
     private LocationManager locationManager;
     private GoogleMap mMap;
     private Set<EventDetails> nearbyEvents;
+    private Map<Marker, EventDetails> markerMap;
     private EditText searchBox;
     View mapView;
     Context context = this;
@@ -63,6 +66,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         nearbyEvents = new HashSet<>();
         searchBox = findViewById(R.id.search_box);
         mapView = findViewById(R.id.map);
+        markerMap = new HashMap<>();
         CheckBox map_interest_checkbox = findViewById(R.id.map_interest_checkbox);
 
         map_interest_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -133,7 +137,15 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(FindEventActivity.this,JoinEventActivity.class);
+                EventDetails details = markerMap.get(marker);
+                Intent intent = new Intent(context,JoinEventActivity.class);
+                intent.putExtra("event_host", details.ownerName);
+                intent.putExtra("event_attendees", details.attendees);
+                intent.putExtra("event_time", details.time.toString());
+                intent.putExtra("event_title", details.title);
+                intent.putExtra("event_description", details.description);
+                intent.putExtra("event_category", details.category);
+                intent.putExtra("event_venue", details.place.getName());
                 startActivity(intent);
             }
         });
@@ -204,6 +216,7 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
         nearbyEvents.clear();
+        markerMap.clear();
         nearbyEvents.addAll(events);
 
         for (EventDetails event : nearbyEvents) {
@@ -219,13 +232,11 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                         "\nAttendees: " + event.attendees + "\n" + event.time);
             }
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    mMap.addMarker(marker);
-                }
-            });
+            runOnUiThread( new MapEditor(markerMap, marker, event) );
         }
     }
+
+
 
     @Override
     public void onRequestFailed(String reason) {
@@ -258,6 +269,24 @@ public class FindEventActivity extends FragmentActivity implements OnMapReadyCal
                     dialog.show(getFragmentManager(), "Location Error");
                 }
             }
+        }
+    }
+
+    private class MapEditor implements Runnable {
+        Map<Marker, EventDetails> eventMarkers;
+        MarkerOptions marker;
+        EventDetails details;
+
+        public MapEditor(Map<Marker, EventDetails> data, MarkerOptions marker, EventDetails details) {
+            eventMarkers = data;
+            this.marker = marker;
+            this.details = details;
+        }
+
+        @Override
+        public void run() {
+            Marker realMarker = mMap.addMarker(marker);
+            markerMap.put(realMarker, details);
         }
     }
 }

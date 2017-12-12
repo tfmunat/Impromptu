@@ -1,6 +1,7 @@
 package com.laserscorpion.impromptu;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class JoinEventActivity extends FragmentActivity {
@@ -30,9 +33,14 @@ public class JoinEventActivity extends FragmentActivity {
     public String id;
     //private ArrayAdapter<String> adapter;
     //private ArrayList<String> e_title;
-    public String title;
-    public Date time;
     public String event_id, eventID, user_id;
+    private String time;
+    private String host;
+    private ArrayList<String> attendees;
+    private String title;
+    private String description;
+    private String category;
+    private String venue;
     private static final String TAG = "CreateEventActivity";
     private static final String USER_ID = "impromptu_user_id";
 
@@ -40,6 +48,32 @@ public class JoinEventActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_event);
+        Intent creationIntent = getIntent();
+        host = creationIntent.getStringExtra("event_host");
+        attendees = creationIntent.getStringArrayListExtra("event_attendees");
+        time = creationIntent.getStringExtra("event_time");
+        title = creationIntent.getStringExtra("event_title");
+        description = creationIntent.getStringExtra("event_description");
+        category = creationIntent.getStringExtra("event_category");
+        venue = creationIntent.getStringExtra("event_venue");
+
+        TextView titleView = (TextView)findViewById(R.id.event_title);
+        TextView timeView = (TextView)findViewById(R.id.event_time);
+        TextView ownerView = (TextView)findViewById(R.id.event_host);
+        TextView locationView = (TextView)findViewById(R.id.event_venue);
+        TextView attendeeView = (TextView)findViewById(R.id.attendee_list);
+
+        titleView.setText(title);
+        timeView.setText(time);
+        ownerView.setText(host);
+        locationView.setText(venue);
+        String attendeeList = new String();
+        for (String s : attendees) {
+            attendeeList += s + ", ";
+        };
+        attendeeView.setText(attendeeList);
+
+
         //e_title = new ArrayList<>();
         //adapter = new ArrayAdapter<>(this, R.layout.activity_join_event, e_title);
         //ListView list = (ListView)findViewById(R.id.event_list);
